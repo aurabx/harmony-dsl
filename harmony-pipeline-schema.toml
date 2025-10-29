@@ -3,7 +3,7 @@
 # It can be parsed and validated in both Rust (harmony-proxy) and PHP (runbeam cloud API)
 
 [schema]
-version = "1.0.0"
+version = "1.1.0"
 description = "Harmony Proxy pipeline configuration schema for routing and middleware chains"
 
 # ========================================================================================
@@ -12,8 +12,15 @@ description = "Harmony Proxy pipeline configuration schema for routing and middl
 [[table]]
 name = "pipelines.*"
 pattern = true
+pattern_constraint = "^[a-z0-9_-]+$"
 required = false
 description = "Pipeline definition linking endpoints, middleware, and backends"
+
+[[table.field]]
+name = "id"
+type = "string"
+required = false
+description = "Optional unique identifier for this pipeline"
 
 [[table.field]]
 name = "description"
@@ -58,8 +65,15 @@ description = "List of backend identifiers for this pipeline"
 [[table]]
 name = "endpoints.*"
 pattern = true
+pattern_constraint = "^[a-z0-9_-]+$"
 required = false
 description = "Endpoint configuration defining how requests are received"
+
+[[table.field]]
+name = "id"
+type = "string"
+required = false
+description = "Optional unique identifier for this endpoint"
 
 [[table.field]]
 name = "service"
@@ -101,8 +115,15 @@ description = "Port for DICOM endpoints"
 [[table]]
 name = "backends.*"
 pattern = true
+pattern_constraint = "^[a-z0-9_-]+$"
 required = false
 description = "Backend configuration defining where requests are forwarded"
+
+[[table.field]]
+name = "id"
+type = "string"
+required = false
+description = "Optional unique identifier for this backend"
 
 [[table.field]]
 name = "service"
@@ -162,8 +183,15 @@ description = "Local Application Entity Title for DICOM SCU operations"
 [[table]]
 name = "middleware.*"
 pattern = true
+pattern_constraint = "^[a-z0-9_-]+$"
 required = false
 description = "Middleware instance configuration"
+
+[[table.field]]
+name = "id"
+type = "string"
+required = false
+description = "Optional unique identifier for this middleware instance"
 
 [[table.field]]
 name = "type"
@@ -237,8 +265,15 @@ description = "JWT token audience for jwtauth middleware"
 [[table]]
 name = "middleware_types.*"
 pattern = true
+pattern_constraint = "^[a-z0-9_-]+$"
 required = false
 description = "Additional middleware type registrations (supplements main config)"
+
+[[table.field]]
+name = "id"
+type = "string"
+required = false
+description = "Optional unique identifier for this middleware type"
 
 [[table.field]]
 name = "module"

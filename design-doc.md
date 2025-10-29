@@ -58,6 +58,7 @@ default = 8080
 | `schema.description`      | `string`  | Human-readable description of this schema.                                  |
 | `table.name`              | `string`  | Name of the TOML table being described. Use `*` for wildcard patterns.      |
 | `table.pattern`           | `bool`    | If true, `table.name` is a pattern (e.g., `network.*` matches all networks).|
+| `table.pattern_constraint`| `string`  | Regex pattern that wildcard portion must match (e.g., `^[a-z0-9_-]+$`).     |
 | `table.required`          | `bool`    | Whether the table must exist in the TOML file.                              |
 | `table.description`       | `string`  | Human-readable description of this table.                                   |
 | `field.name`              | `string`  | Field name within the table.                                                |
