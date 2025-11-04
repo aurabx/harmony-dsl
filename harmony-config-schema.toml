@@ -44,6 +44,28 @@ max = 168
 description = "Duration (in hours) to cache JWKS keys from Runbeam Cloud"
 
 # ========================================================================================
+# RUNBEAM TABLE - Runbeam Cloud integration configuration
+# ========================================================================================
+[[table]]
+name = "runbeam"
+required = false
+description = "Runbeam Cloud integration configuration"
+
+[[table.field]]
+name = "enabled"
+type = "boolean"
+required = false
+default = false
+description = "Whether Runbeam Cloud integration is enabled"
+
+[[table.field]]
+name = "url"
+type = "string"
+required = false
+default = "https://api.runbeam.app"
+description = "Runbeam Cloud API base URL"
+
+# ========================================================================================
 # MANAGEMENT TABLE - Management API configuration
 # ========================================================================================
 [[table]]
