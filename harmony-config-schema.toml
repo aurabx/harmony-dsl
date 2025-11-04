@@ -21,14 +21,6 @@ required = true
 description = "Unique identifier for this proxy instance"
 
 [[table.field]]
-name = "log_level"
-type = "string"
-required = false
-default = "error"
-enum = ["trace", "debug", "info", "warn", "error"]
-description = "Logging verbosity level"
-
-[[table.field]]
 name = "pipelines_path"
 type = "string"
 required = false
@@ -160,6 +152,14 @@ description = "TCP listener bind port - Port number for the TCP listener"
 name = "logging"
 required = false
 description = "File logging configuration"
+
+[[table.field]]
+name = "log_level"
+type = "string"
+required = false
+default = "error"
+enum = ["trace", "debug", "info", "warn", "error"]
+description = "Logging verbosity level"
 
 [[table.field]]
 name = "log_to_file"
