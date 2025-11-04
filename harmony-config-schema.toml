@@ -126,28 +126,32 @@ required_if = "enable_wireguard == true"
 default = "wg0"
 description = "WireGuard interface name"
 
+# Backward Compatibility: The field was previously named 'http' in schema versions prior to 1.2.0.
+# TOML files may still use [network.*.http] which will be aliased to tcp_config during deserialization.
+# Both names are accepted in configuration files for backward compatibility.
 [[table.field]]
-name = "http"
+name = "tcp_config"
 type = "table"
 required = false
-description = "HTTP listener configuration for this network"
+description = "TCP network bind settings - used by all protocol adapters (HTTP, DIMSE, etc.). Note: 'http' is accepted as an alias for backward compatibility in TOML files"
 
 [[table.field]]
-name = "http.bind_address"
+name = "tcp_config.bind_address"
 type = "string"
 required = true
-required_if = "http exists"
+required_if = "tcp_config exists"
 default = "0.0.0.0"
-description = "IP address to bind HTTP listener to"
+description = "TCP listener bind address - IP address or hostname to bind the TCP listener to"
 
 [[table.field]]
-name = "http.bind_port"
+name = "tcp_config.bind_port"
 type = "integer"
 required = true
-required_if = "http exists"
+required_if = "tcp_config exists"
+default = 8080
 min = 1
 max = 65535
-description = "Port number for HTTP listener"
+description = "TCP listener bind port - Port number for the TCP listener"
 
 # ========================================================================================
 # LOGGING TABLE - Logging configuration
