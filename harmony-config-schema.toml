@@ -59,11 +59,19 @@ default = false
 description = "Whether Runbeam Cloud integration is enabled"
 
 [[table.field]]
-name = "url"
+name = "cloud_api_base_url"
 type = "string"
 required = false
-default = "https://api.runbeam.app"
-description = "Runbeam Cloud API base URL"
+description = "Base URL for Runbeam Cloud API (optional override, defaults to https://api.runbeam.cloud)"
+
+[[table.field]]
+name = "poll_interval_secs"
+type = "integer"
+required = false
+default = 30
+min = 5
+max = 3600
+description = "Interval in seconds for polling cloud API (default: 30s). Note: Polling starts automatically after gateway authorization via /admin/authorize"
 
 # ========================================================================================
 # MANAGEMENT TABLE - Management API configuration
@@ -93,21 +101,6 @@ type = "string"
 required = true
 required_if = "enabled == true"
 description = "Network name to bind management API to"
-
-[[table.field]]
-name = "poll_interval_secs"
-type = "integer"
-required = false
-default = 30
-min = 5
-max = 3600
-description = "Interval in seconds for polling cloud API (default: 30s). Note: Polling starts automatically after gateway authorization via /admin/authorize"
-
-[[table.field]]
-name = "cloud_api_base_url"
-type = "string"
-required = false
-description = "Base URL for Runbeam Cloud API (optional override, defaults to https://api.runbeam.cloud)"
 
 # ========================================================================================
 # NETWORK TABLE - Network configurations (multiple instances)
