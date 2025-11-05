@@ -3,7 +3,7 @@
 # It can be parsed and validated in both Rust (harmony-proxy) and PHP (runbeam cloud API)
 
 [schema]
-version = "1.1.0"
+version = "1.4.0"
 description = "Harmony Proxy pipeline configuration schema for routing and middleware chains"
 
 # ========================================================================================
@@ -258,6 +258,27 @@ name = "options.audience"
 type = "string"
 required = false
 description = "JWT token audience for jwtauth middleware"
+
+# Path Filter Middleware Options
+[[table.field]]
+name = "options.rules"
+type = "array"
+array_item_type = "table"
+required = false
+min_items = 1
+description = "Array of path filter rules. Each rule must have either 'allow' or 'deny' field (mutually exclusive). Rules are evaluated in order."
+
+[[table.field]]
+name = "options.rules.allow"
+type = "string"
+required = false
+description = "Path pattern to allow using matchit syntax (e.g., '/ImagingStudy', '/Patient/{id}'). Mutually exclusive with 'deny'."
+
+[[table.field]]
+name = "options.rules.deny"
+type = "string"
+required = false
+description = "Path pattern to deny using matchit syntax (e.g., '*' for deny-all). Mutually exclusive with 'allow'."
 
 # ========================================================================================
 # MIDDLEWARE_TYPES TABLE - Additional middleware type registrations (optional, for pipeline-specific types)
