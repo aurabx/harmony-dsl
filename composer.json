@@ -1,0 +1,25 @@
+{
+    "name": "aurabx/harmony-dsl",
+    "description": "TOML Schema DSL definitions for Harmony Proxy configuration files",
+    "type": "library",
+    "license": "MIT",
+    "homepage": "https://github.com/aurabx/harmony-dsl",
+    "support": {
+        "issues": "https://github.com/aurabx/harmony-dsl/issues",
+        "source": "https://github.com/aurabx/harmony-dsl"
+    },
+    "keywords": [
+        "harmony",
+        "proxy",
+        "schema",
+        "toml",
+        "validation",
+        "dsl"
+    ],
+    "require": {},
+    "extra": {
+        "branch-alias": {
+            "dev-main": "1.0-dev"
+        }
+    }
+}

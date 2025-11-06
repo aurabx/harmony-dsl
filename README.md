@@ -1,5 +1,26 @@
 # Harmony Configuration Schema DSL
 
+## Installation
+
+Install via Composer:
+
+```bash
+composer require aurabx/harmony-dsl
+```
+
+## Usage
+
+The package provides TOML schema definitions as data files. Access them directly from your PHP application:
+
+```php
+$configSchemaPath = __DIR__ . '/vendor/aurabx/harmony-dsl/harmony-config-schema.toml';
+$pipelineSchemaPath = __DIR__ . '/vendor/aurabx/harmony-dsl/harmony-pipeline-schema.toml';
+
+// Load and parse the schema files with your TOML parser
+$configSchema = parse_toml_file($configSchemaPath);
+$pipelineSchema = parse_toml_file($pipelineSchemaPath);
+```
+
 ## Quick Start
 
 This directory contains the TOML Schema DSL definitions for Harmony Proxy configuration files. These schemas enable cross-language validation between Rust (harmony-proxy) and PHP (Runbeam Cloud API).
