@@ -1,0 +1,12 @@
+{
+    "repositories": [
+        {
+            "type": "path",
+            "url": "/Users/xtfer/working/runbeam/harmony-dsl"
+        }
+    ],
+    "require": {
+        "aurabx/harmony-dsl": "*"
+    },
+    "minimum-stability": "dev"
+}

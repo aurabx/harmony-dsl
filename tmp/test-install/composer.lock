@@ -1,0 +1,54 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "1468550aec5919a9fd6e56ceccf1fcc0",
+    "packages": [
+        {
+            "name": "aurabx/harmony-dsl",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "/Users/xtfer/working/runbeam/harmony-dsl",
+                "reference": "5897bf01b5599b0625216bee2fbb5f106a710ab3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.0-dev"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "TOML Schema DSL definitions for Harmony Proxy configuration files",
+            "homepage": "https://github.com/aurabx/harmony-dsl",
+            "keywords": [
+                "dsl",
+                "harmony",
+                "proxy",
+                "schema",
+                "toml",
+                "validation"
+            ],
+            "support": {
+                "issues": "https://github.com/aurabx/harmony-dsl/issues",
+                "source": "https://github.com/aurabx/harmony-dsl"
+            },
+            "transport-options": {
+                "relative": false
+            }
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "dev",
+    "stability-flags": {},
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {},
+    "platform-dev": {},
+    "plugin-api-version": "2.6.0"
+}

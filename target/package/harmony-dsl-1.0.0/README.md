@@ -2,26 +2,13 @@
 
 ## Installation
 
-### PHP (Composer)
-
 Install via Composer:
 
 ```bash
 composer require aurabx/harmony-dsl
 ```
 
-### Rust (Cargo)
-
-Add to your `Cargo.toml`:
-
-```toml
-[dependencies]
-harmony-dsl = "1.4"
-```
-
 ## Usage
-
-### PHP
 
 The package provides TOML schema definitions as data files. Access them directly from your PHP application:
 
@@ -32,22 +19,6 @@ $pipelineSchemaPath = __DIR__ . '/vendor/aurabx/harmony-dsl/harmony-pipeline-sch
 // Load and parse the schema files with your TOML parser
 $configSchema = parse_toml_file($configSchemaPath);
 $pipelineSchema = parse_toml_file($pipelineSchemaPath);
-```
-
-### Rust
-
-The schema files are embedded as string constants in the crate:
-
-```rust
-use harmony_dsl::{CONFIG_SCHEMA, PIPELINE_SCHEMA};
-
-// Access the schema contents as &str
-let config_schema = CONFIG_SCHEMA;
-let pipeline_schema = PIPELINE_SCHEMA;
-
-// Parse with your TOML parser
-let config: toml::Value = toml::from_str(config_schema)?;
-let pipeline: toml::Value = toml::from_str(pipeline_schema)?;
 ```
 
 ## Quick Start

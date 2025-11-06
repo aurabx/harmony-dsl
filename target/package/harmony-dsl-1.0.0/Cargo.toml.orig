@@ -1,0 +1,21 @@
+[package]
+name = "harmony-dsl"
+version = "1.0.0"
+edition = "2021"
+description = "TOML Schema DSL definitions for Harmony Proxy configuration files"
+license = "MIT"
+repository = "https://github.com/aurabx/harmony-dsl"
+homepage = "https://github.com/aurabx/harmony-dsl"
+keywords = ["harmony", "proxy", "schema", "toml", "validation"]
+categories = ["config", "data-structures"]
+readme = "README.md"
+
+include = [
+    "harmony-config-schema.toml",
+    "harmony-pipeline-schema.toml",
+    "README.md",
+    "src/**/*",
+]
+
+[lib]
+path = "src/lib.rs"

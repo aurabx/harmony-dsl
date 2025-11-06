@@ -1,0 +1,44 @@
+{
+    "packages": [
+        {
+            "name": "aurabx/harmony-dsl",
+            "version": "dev-main",
+            "version_normalized": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "/Users/xtfer/working/runbeam/harmony-dsl",
+                "reference": "5897bf01b5599b0625216bee2fbb5f106a710ab3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.0-dev"
+                }
+            },
+            "installation-source": "dist",
+            "license": [
+                "MIT"
+            ],
+            "description": "TOML Schema DSL definitions for Harmony Proxy configuration files",
+            "homepage": "https://github.com/aurabx/harmony-dsl",
+            "keywords": [
+                "dsl",
+                "harmony",
+                "proxy",
+                "schema",
+                "toml",
+                "validation"
+            ],
+            "support": {
+                "issues": "https://github.com/aurabx/harmony-dsl/issues",
+                "source": "https://github.com/aurabx/harmony-dsl"
+            },
+            "transport-options": {
+                "relative": false
+            },
+            "install-path": "../aurabx/harmony-dsl"
+        }
+    ],
+    "dev": true,
+    "dev-package-names": []
+}
