@@ -215,8 +215,8 @@ description = "Backend-specific options"
 [[table.field]]
 name = "options.path"
 type = "string"
-required = true
-required_if = "backend == 'filesystem'"
+required = false
+default = "./tmp"
 description = "Filesystem path for file storage"
 
 [[table.field]]
