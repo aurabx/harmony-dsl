@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0] - 2025-11-12
+
+### Added
+- Support for policies middleware type with nested rules
+- `options.policies` array field for middleware configurations
+- Policy fields: `id`, `name`, `enabled` (boolean)
+- Dynamic policy rules: `options.policies.<policy_name>.rules` array
+- Rule fields: `id`, `name`, `type` (unrestricted), `weight`, `enabled` (boolean)
+- Rule-specific options table: `options.policies.<policy_name>.rule_<rule_id>.options` (open table)
+
+### Changed
+- Schema version bumped from 1.4.0 to 1.5.0 in `harmony-pipeline-schema.toml`
+
 ## [1.4.2] - 2025-11-10
 
 ### Added
@@ -60,6 +73,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Schema DSL specification and documentation
 - Cross-language validation support (Rust and PHP)
 
+[1.5.0]: https://github.com/aurabx/harmony-dsl/compare/1.4.2...1.5.0
 [1.4.2]: https://github.com/aurabx/harmony-dsl/compare/1.4.1...1.4.2
 [1.4.1]: https://github.com/aurabx/harmony-dsl/compare/1.4.0...1.4.1
 [1.4.0]: https://github.com/aurabx/harmony-dsl/compare/1.3...1.4.0
