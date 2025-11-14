@@ -302,6 +302,15 @@ type = "string"
 required = true
 description = "Module path for this service type (empty string for built-in)"
 
+[[table.field]]
+name = "type"
+type = "array"
+array_item_type = "string"
+required = false
+enum = ["endpoint", "backend"]
+min_items = 1
+description = "Service capabilities - indicates whether this service can be used as an endpoint (receives requests) and/or backend (forwards requests). Can specify one or both."
+
 # ========================================================================================
 # MIDDLEWARE_TYPES TABLE - Middleware type registrations
 # ========================================================================================
