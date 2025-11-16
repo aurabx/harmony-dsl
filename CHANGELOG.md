@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.6.0] - 2025-01-16
+## [1.7.0] - 2025-01-16
 
 ### Breaking Changes
 - **Policies and Rules Structure Refactored**: Both policies and rules are now defined as top-level tables
@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Rule fields: `id` (required), `name`, `type` (required), `weight`, `enabled`, `options` (table)
 - Middleware `options.policies` now accepts array of policy IDs (strings)
 - `example-pipeline-with-rules.toml` demonstrating new structure
-- `MIGRATION-v1.6.md` comprehensive migration guide from v1.5 to v1.6
+- `MIGRATION-v1.7.md` comprehensive migration guide from v1.6 to v1.7
 
 ### Removed
 - Nested `options.policies` array-of-tables structure for inline policy definitions
@@ -29,15 +29,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Pattern-based rule options: `options.policies.*.rule_*.options`
 
 ### Changed
-- Schema version bumped from 1.5.0 to 1.6.0 in `harmony-pipeline-schema.toml`
-- Cargo.toml version updated to 1.6.0
+- Schema version bumped from 1.6.0 to 1.7.0 in `harmony-pipeline-schema.toml`
+- Cargo.toml version updated to 1.7.0
 - Policy definitions moved from middleware-scoped to pipeline-scoped (top-level)
 - Rule definitions moved from policy-scoped to pipeline-scoped (top-level)
 - Three-tier structure: Middleware → Policies → Rules (all reference-based)
 - Improved separation: middleware orchestrates, policies group, rules execute
 
 ### Migration
-See `MIGRATION-v1.6.md` for complete migration instructions. Key changes:
+See `MIGRATION-v1.7.md` for complete migration instructions. Key changes:
 1. Extract nested policies to top-level `[policies.*]` tables
 2. Extract nested rules to top-level `[rules.*]` tables
 3. Update middleware to reference policies by ID: `options.policies = ['policy_id']`
@@ -111,6 +111,10 @@ See `MIGRATION-v1.6.md` for complete migration instructions. Key changes:
 - Schema DSL specification and documentation
 - Cross-language validation support (Rust and PHP)
 
+## [1.6.0] - 2025-01-13
+- Added Types to Services
+
+[1.7.0]: https://github.com/aurabx/harmony-dsl/compare/1.6.0...1.7.0
 [1.6.0]: https://github.com/aurabx/harmony-dsl/compare/1.5.0...1.6.0
 [1.5.0]: https://github.com/aurabx/harmony-dsl/compare/1.4.2...1.5.0
 [1.4.2]: https://github.com/aurabx/harmony-dsl/compare/1.4.1...1.4.2

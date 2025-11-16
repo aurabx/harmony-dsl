@@ -1,5 +1,5 @@
 # Example Pipeline Configuration with New Policies and Rules Structure
-# Schema Version: 1.6.0
+# Schema Version: 1.7.0
 #
 # This example demonstrates the new top-level structure where:
 # - Policies are defined at the top level as [policies.*] tables
