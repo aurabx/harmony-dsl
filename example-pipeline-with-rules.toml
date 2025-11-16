@@ -1,0 +1,98 @@
+# Example Pipeline Configuration with New Policies and Rules Structure
+# Schema Version: 1.6.0
+#
+# This example demonstrates the new top-level structure where:
+# - Policies are defined at the top level as [policies.*] tables
+# - Rules are defined at the top level as [rules.*] tables
+# - Middleware references policies by ID via a policies array
+# - Policies reference rules by ID via a rules array
+# - Both policies and rules can be reused across the pipeline
+
+# ========================================================================================
+# PIPELINE DEFINITION
+# ========================================================================================
+[pipelines.echo_basic]
+description = "Basic echo endpoint with policy-based access control"
+networks = ["http_net"]
+endpoints = ["echo_endpoint"]
+middleware = ["echo_policies"]
+backends = ["echo_backend"]
+
+# ========================================================================================
+# MIDDLEWARE - POLICIES
+# ========================================================================================
+[middleware.echo_policies]
+type = "policies"
+
+[middleware.echo_policies.options]
+policies = ['echo_open']  # Reference to policy defined below
+
+# ========================================================================================
+# POLICIES - Top-level policy definitions
+# ========================================================================================
+
+# Policy: Allow all requests
+[policies.echo_open]
+id = "echo_open"
+name = "Echo Open Access"
+enabled = true
+rules = ['allow_all']  # Reference to rules defined below
+
+# ========================================================================================
+# RULES - Top-level rule definitions
+# ========================================================================================
+
+# Rule: Allow all IPs
+[rules.allow_all]
+id = "allow_all"
+name = "Allow All"
+type = "allow_all"
+weight = 100
+enabled = true
+options = {}
+
+# Rule: Rate limit (example of reusable rule)
+[rules.rate_limit_100]
+id = "rate_limit_100"
+name = "Rate Limit 100/minute"
+type = "rate_limit"
+weight = 50
+enabled = true
+
+[rules.rate_limit_100.options]
+max_requests = 100
+window_seconds = 60
+
+# Rule: Allow internal IPs (example of rule with complex options)
+[rules.allow_internal_ips]
+id = "allow_internal_ips"
+name = "Allow Internal Networks"
+type = "ip_allow"
+weight = 90
+enabled = true
+
+[rules.allow_internal_ips.options]
+ip_addresses = [
+    "10.0.0.0/8",
+    "172.16.0.0/12",
+    "192.168.0.0/16",
+    "127.0.0.1/32"
+]
+
+# ========================================================================================
+# ENDPOINTS
+# ========================================================================================
+[endpoints.echo_endpoint]
+service = "echo"
+
+[endpoints.echo_endpoint.options]
+path_prefix = "/echo"
+
+# ========================================================================================
+# BACKENDS
+# ========================================================================================
+[backends.echo_backend]
+service = "echo"
+
+[backends.echo_backend.options]
+path_prefix = "/echo-back"

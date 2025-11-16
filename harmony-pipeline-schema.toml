@@ -3,7 +3,7 @@
 # It can be parsed and validated in both Rust (harmony-proxy) and PHP (runbeam cloud API)
 
 [schema]
-version = "1.5.0"
+version = "1.6.0"
 description = "Harmony Proxy pipeline configuration schema for routing and middleware chains"
 
 # ========================================================================================
@@ -284,79 +284,97 @@ description = "Path pattern to deny using matchit syntax (e.g., '*' for deny-all
 [[table.field]]
 name = "options.policies"
 type = "array"
-array_item_type = "table"
+array_item_type = "string"
 required = false
 min_items = 1
-description = "Array of policy definitions for the policies middleware type. Each policy contains rules that define access control, rate limiting, or other request processing logic."
+description = "Array of policy IDs for the policies middleware type. Policies are defined in the top-level [policies.*] tables."
+
+# ========================================================================================
+# POLICIES TABLE - Policy definitions (multiple instances)
+# ========================================================================================
+[[table]]
+name = "policies.*"
+pattern = true
+pattern_constraint = "^[a-z0-9_-]+$"
+required = false
+description = "Policy definitions that can be referenced by policies middleware. Each policy contains rules that define access control logic."
 
 [[table.field]]
-name = "options.policies.id"
+name = "id"
+type = "string"
+required = true
+description = "Unique identifier for the policy (must match the table suffix)"
+
+[[table.field]]
+name = "name"
 type = "string"
 required = false
-description = "Unique identifier for the policy"
+description = "Human-readable name for the policy"
 
 [[table.field]]
-name = "options.policies.name"
-type = "string"
-required = false
-description = "Name of the policy"
-
-[[table.field]]
-name = "options.policies.enabled"
+name = "enabled"
 type = "boolean"
 required = false
+default = true
 description = "Whether this policy is enabled and should be applied"
 
 [[table.field]]
-name = "options.policies.*.rules"
+name = "rules"
 type = "array"
-array_item_type = "table"
-pattern = true
+array_item_type = "string"
 required = false
 min_items = 1
-description = "Array of rule definitions for this policy. Rules are evaluated to determine if and how requests should be processed."
+description = "Array of rule IDs that this policy uses. Rules are defined in the top-level [rules.*] tables."
 
-[[table.field]]
-name = "options.policies.*.rules.id"
-type = "string"
+# ========================================================================================
+# RULES TABLE - Rule definitions (multiple instances)
+# ========================================================================================
+[[table]]
+name = "rules.*"
 pattern = true
+pattern_constraint = "^[a-z0-9_-]+$"
 required = false
-description = "Unique identifier for the rule"
+description = "Rule definitions that can be referenced by policies. Each rule defines access control logic."
 
 [[table.field]]
-name = "options.policies.*.rules.name"
+name = "id"
 type = "string"
-pattern = true
-required = false
-description = "Name of the rule"
+required = true
+description = "Unique identifier for the rule (must match the table suffix)"
 
 [[table.field]]
-name = "options.policies.*.rules.type"
+name = "name"
 type = "string"
-pattern = true
 required = false
-description = "Type of rule (e.g., ip_allow, ip_deny, rate_limit). No restrictions on allowed values."
+description = "Human-readable name for the rule"
 
 [[table.field]]
-name = "options.policies.*.rules.weight"
+name = "type"
+type = "string"
+required = true
+description = "Type of rule (e.g., 'allow_all', 'deny_all', 'ip_allow', 'ip_deny', 'rate_limit', etc.)"
+
+[[table.field]]
+name = "weight"
 type = "integer"
-pattern = true
 required = false
-description = "Weight or priority of the rule for evaluation order. Higher weights are evaluated first."
+default = 100
+min = 0
+max = 1000
+description = "Priority weight for rule evaluation (higher values = higher priority)"
 
 [[table.field]]
-name = "options.policies.*.rules.enabled"
+name = "enabled"
 type = "boolean"
-pattern = true
 required = false
-description = "Whether this rule is enabled and should be evaluated"
+default = true
+description = "Whether this rule is currently active"
 
 [[table.field]]
-name = "options.policies.*.rule_*.options"
+name = "options"
 type = "table"
-pattern = true
 required = false
-description = "Open table containing rule-specific configuration options. The structure varies by rule type (e.g., ip_addresses for IP rules, rate for rate limiting rules)."
+description = "Rule-specific configuration options (structure depends on rule type)"
 
 # ========================================================================================
 # MIDDLEWARE_TYPES TABLE - Additional middleware type registrations (optional, for pipeline-specific types)
