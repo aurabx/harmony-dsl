@@ -37,6 +37,8 @@ required_if = "enabled == true"  # Only required when enabled=true
 | `design-doc.md` | DSL specification and field reference |
 | `harmony-schema-guide.md` | Implementation guide for Rust and PHP |
 
+**Important**: The `schema.version` field in both schema files must match the version in `Cargo.toml` (without the `-dev` suffix).
+
 ## Working With Schemas
 
 ### Schema Structure

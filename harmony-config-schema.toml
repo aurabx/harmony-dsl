@@ -3,7 +3,7 @@
 # It can be parsed and validated in both Rust (harmony-proxy) and PHP (runbeam cloud API)
 
 [schema]
-version = "1.4.0"
+version = "1.8.0"
 description = "Harmony Proxy configuration schema for gateway configurations"
 
 # ========================================================================================
@@ -279,6 +279,184 @@ type = "string"
 required = false
 required_if = "backend == 's3'"
 description = "S3 region"
+
+# ========================================================================================
+# PEERS TABLE - Peer system configurations
+# ========================================================================================
+[[table]]
+name = "peers.*"
+pattern = true
+pattern_constraint = "^[a-z0-9_-]+$"
+required = false
+description = "Peer system configurations for external systems that can send requests to Harmony services (e.g., peers.hospital_a, peers.imaging_center)"
+
+[[table.field]]
+name = "id"
+type = "string"
+required = false
+description = "Optional unique identifier for this peer"
+
+[[table.field]]
+name = "name"
+type = "string"
+required = false
+description = "Human-readable name for this peer system"
+
+[[table.field]]
+name = "connection"
+type = "table"
+required = true
+description = "Connection configuration for this peer"
+
+[[table.field]]
+name = "connection.host"
+type = "string"
+required = true
+required_if = "connection exists"
+description = "Hostname, IP address, or URL of the peer system (e.g., 'hospital.example.com', '192.168.1.100', 'https://api.example.com')"
+
+[[table.field]]
+name = "connection.port"
+type = "integer"
+required = false
+min = 1
+max = 65535
+description = "Port number for the peer connection (optional if included in host URL)"
+
+[[table.field]]
+name = "type"
+type = "string"
+required = true
+enum = ["http", "https", "dicom", "harmony", "fhir", "hl7v2", "custom"]
+description = "Protocol type used by the peer system"
+
+[[table.field]]
+name = "description"
+type = "string"
+required = false
+description = "Description of the peer system and its purpose"
+
+[[table.field]]
+name = "enabled"
+type = "boolean"
+required = false
+default = true
+description = "Whether this peer is currently enabled and can send requests"
+
+[[table.field]]
+name = "tags"
+type = "array"
+array_item_type = "string"
+required = false
+description = "Optional tags for categorizing or filtering peers"
+
+# ========================================================================================
+# TARGETS TABLE - Target system configurations
+# ========================================================================================
+[[table]]
+name = "targets.*"
+pattern = true
+pattern_constraint = "^[a-z0-9_-]+$"
+required = false
+description = "Target system configurations for external systems that receive requests from Harmony backends (e.g., targets.upstream_api, targets.data_warehouse)"
+
+[[table.field]]
+name = "id"
+type = "string"
+required = false
+description = "Optional unique identifier for this target"
+
+[[table.field]]
+name = "name"
+type = "string"
+required = false
+description = "Human-readable name for this target system"
+
+[[table.field]]
+name = "connection"
+type = "table"
+required = true
+description = "Connection configuration for this target"
+
+[[table.field]]
+name = "connection.host"
+type = "string"
+required = true
+required_if = "connection exists"
+description = "Hostname, IP address, or URL of the target system (e.g., 'api.example.com', '192.168.1.100', 'https://api.example.com')"
+
+[[table.field]]
+name = "connection.port"
+type = "integer"
+required = false
+min = 1
+max = 65535
+description = "Port number for the target connection (optional if included in host URL)"
+
+[[table.field]]
+name = "type"
+type = "string"
+required = true
+enum = ["http", "https", "dicom", "harmony", "fhir", "hl7v2", "custom"]
+description = "Protocol type used by the target system"
+
+[[table.field]]
+name = "description"
+type = "string"
+required = false
+description = "Description of the target system and its purpose"
+
+[[table.field]]
+name = "enabled"
+type = "boolean"
+required = false
+default = true
+description = "Whether this target is currently enabled and can receive requests"
+
+[[table.field]]
+name = "authentication"
+type = "table"
+required = false
+description = "Authentication configuration for this target"
+
+[[table.field]]
+name = "authentication.method"
+type = "string"
+required = false
+enum = ["none", "basic", "bearer", "api_key", "mutual_tls", "custom"]
+default = "none"
+description = "Authentication method used when sending requests to this target"
+
+[[table.field]]
+name = "authentication.credentials_path"
+type = "string"
+required = false
+description = "Path to credentials file (for basic auth, api keys, certificates, etc.)"
+
+[[table.field]]
+name = "tags"
+type = "array"
+array_item_type = "string"
+required = false
+description = "Optional tags for categorizing or filtering targets"
+
+[[table.field]]
+name = "timeout_secs"
+type = "integer"
+required = false
+default = 30
+min = 1
+max = 300
+description = "Request timeout in seconds when communicating with this target"
+
+[[table.field]]
+name = "max_retries"
+type = "integer"
+required = false
+default = 3
+min = 0
+max = 10
+description = "Maximum number of retry attempts for failed requests to this target"
 
 # ========================================================================================
 # SERVICES TABLE - Service type registrations

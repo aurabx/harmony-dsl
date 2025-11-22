@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- New `peers.*` table for defining external systems that send requests to Harmony
+- Peer fields: `id`, `name`, `connection` (table), `type`, `description`, `enabled`, `tags`
+- Peer connection configuration: `connection.host` (required), `connection.port` (optional)
+- New `targets.*` table for defining external systems that receive requests from Harmony backends
+- Target fields: `id`, `name`, `connection` (table), `type`, `description`, `enabled`, `authentication`, `tags`, `timeout_secs`, `max_retries`
+- Target authentication configuration: `authentication.method`, `authentication.credentials_path`
+- Target connection configuration: `connection.host` (required), `connection.port` (optional)
+- Supported protocol types: `http`, `https`, `dicom`, `harmony`, `fhir`, `hl7v2`, `custom`
+
+### Changed
+- Schema version bumped from 1.4.0 to 1.5.0 in `harmony-config-schema.toml`
+
+### Fixed
+
+### Removed
+
 ## [1.7.0] - 2025-01-16
 
 ### Breaking Changes
