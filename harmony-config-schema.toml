@@ -324,11 +324,27 @@ max = 65535
 description = "Port number for the peer connection (optional if included in host URL)"
 
 [[table.field]]
-name = "type"
+name = "connection.base_path"
+type = "string"
+required = false
+description = "Base path or URL prefix for the peer connection (e.g., '/api/v1')"
+
+[[table.field]]
+name = "protocol"
 type = "string"
 required = true
 enum = ["http", "https", "dicom", "harmony", "fhir", "hl7v2", "custom"]
-description = "Protocol type used by the peer system"
+description = "Protocol type used by the peer system. Note: 'type' is accepted as an alias for backward compatibility in TOML files"
+
+# Backward Compatibility: The field was previously named 'type' in schema versions prior to 1.9.0.
+# TOML files may still use 'type' which will be aliased to 'protocol' during deserialization.
+# Both names are accepted in configuration files for backward compatibility.
+[[table.field]]
+name = "type"
+type = "string"
+required = false
+enum = ["http", "https", "dicom", "harmony", "fhir", "hl7v2", "custom"]
+description = "[DEPRECATED - use 'protocol'] Protocol type used by the peer system. Maintained for backward compatibility."
 
 [[table.field]]
 name = "description"
@@ -344,11 +360,49 @@ default = true
 description = "Whether this peer is currently enabled and can send requests"
 
 [[table.field]]
+name = "authentication"
+type = "table"
+required = false
+description = "Authentication configuration for this peer"
+
+[[table.field]]
+name = "authentication.method"
+type = "string"
+required = false
+enum = ["none", "basic", "bearer", "api_key", "mutual_tls", "custom"]
+default = "none"
+description = "Authentication method used when receiving requests from this peer"
+
+[[table.field]]
+name = "authentication.credentials_path"
+type = "string"
+required = false
+description = "Path to credentials file (for basic auth, api keys, certificates, etc.)"
+
+[[table.field]]
 name = "tags"
 type = "array"
 array_item_type = "string"
 required = false
 description = "Optional tags for categorizing or filtering peers"
+
+[[table.field]]
+name = "timeout_secs"
+type = "integer"
+required = false
+default = 30
+min = 1
+max = 300
+description = "Request timeout in seconds when communicating with this peer"
+
+[[table.field]]
+name = "max_retries"
+type = "integer"
+required = false
+default = 3
+min = 0
+max = 10
+description = "Maximum number of retry attempts for failed requests from this peer"
 
 # ========================================================================================
 # TARGETS TABLE - Target system configurations
@@ -394,11 +448,27 @@ max = 65535
 description = "Port number for the target connection (optional if included in host URL)"
 
 [[table.field]]
-name = "type"
+name = "connection.base_path"
+type = "string"
+required = false
+description = "Base path or URL prefix for the target connection (e.g., '/api/v1')"
+
+[[table.field]]
+name = "protocol"
 type = "string"
 required = true
 enum = ["http", "https", "dicom", "harmony", "fhir", "hl7v2", "custom"]
-description = "Protocol type used by the target system"
+description = "Protocol type used by the target system. Note: 'type' is accepted as an alias for backward compatibility in TOML files"
+
+# Backward Compatibility: The field was previously named 'type' in schema versions prior to 1.9.0.
+# TOML files may still use 'type' which will be aliased to 'protocol' during deserialization.
+# Both names are accepted in configuration files for backward compatibility.
+[[table.field]]
+name = "type"
+type = "string"
+required = false
+enum = ["http", "https", "dicom", "harmony", "fhir", "hl7v2", "custom"]
+description = "[DEPRECATED - use 'protocol'] Protocol type used by the target system. Maintained for backward compatibility."
 
 [[table.field]]
 name = "description"

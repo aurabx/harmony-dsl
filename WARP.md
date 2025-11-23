@@ -28,16 +28,65 @@ name = "network"
 required_if = "enabled == true"  # Only required when enabled=true
 ```
 
+### Connection Setting Precedence
+When both reference fields and direct connection settings are present, the following precedence rules apply:
+
+#### For Endpoints with `peer_ref`:
+1. **Base**: Peer's connection settings (from `config.toml`)
+2. **Override**: Endpoint's direct connection fields (in pipeline config)
+3. **Final Override**: Service-specific `options.*` fields (for backward compatibility)
+
+#### For Backends with `target_ref`:
+1. **Base**: Target's connection settings (from `config.toml`)
+2. **Override**: Backend's direct connection fields (in pipeline config)
+3. **Final Override**: Service-specific `options.*` fields (for backward compatibility)
+
+Example:
+```toml
+# config.toml
+[targets.api]
+connection.host = "api.example.com"
+connection.port = 443
+timeout_secs = 60
+
+# pipelines/main.toml
+[backends.my_api]
+service = "http"
+target_ref = "api"           # Inherits host, port, timeout from target
+timeout_secs = 120           # Overrides timeout to 120 seconds
+options.base_url = "https://override.example.com"  # Final override via options
+```
+
 ## Schema Files
 
 | File | Purpose |
 |------|---------|
-| `harmony-config-schema.toml` | Main gateway config structure (proxy, networks, storage, services) |
+| `harmony-config-schema.toml` | Main gateway config structure (proxy, networks, storage, services, peers, targets) |
 | `harmony-pipeline-schema.toml` | Pipeline config structure (pipelines, endpoints, backends, middleware) |
 | `design-doc.md` | DSL specification and field reference |
 | `harmony-schema-guide.md` | Implementation guide for Rust and PHP |
 
 **Important**: The `schema.version` field in both schema files must match the version in `Cargo.toml` (without the `-dev` suffix).
+
+### Normalized Connection Settings
+The schemas support normalized connection settings across all components:
+
+#### Standardized Connection Structure
+All components (peers, targets, endpoints, backends) now share a consistent connection configuration pattern:
+- **Connection fields**: `host`, `port`, `protocol`, `base_path`
+- **Authentication fields**: `method`, `credentials_path`
+- **Reliability fields** (targets/peers/backends): `timeout_secs`, `max_retries`
+
+#### Reference Capability
+- **Endpoints** can reference **peers** via `peer_ref` field
+- **Backends** can reference **targets** via `target_ref` field
+- When a reference is set, the endpoint/backend inherits the peer/target's connection settings
+- Direct settings on the endpoint/backend override inherited settings
+
+#### Backward Compatibility
+- The `type` field in peers/targets is renamed to `protocol` (with `type` maintained as a deprecated alias)
+- All service-specific `options.*` fields remain unchanged for backward compatibility
+- All new fields are optional to avoid breaking existing configurations
 
 ## Working With Schemas
 

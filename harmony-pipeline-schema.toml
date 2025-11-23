@@ -82,6 +82,64 @@ required = true
 description = "Service type for this endpoint (must match a registered service)"
 
 [[table.field]]
+name = "peer_ref"
+type = "string"
+required = false
+description = "Reference to a peer defined in the main config. When set, inherits the peer's connection settings as defaults."
+
+[[table.field]]
+name = "connection"
+type = "table"
+required = false
+description = "Connection configuration for this endpoint (overrides peer_ref settings if both are specified)"
+
+[[table.field]]
+name = "connection.host"
+type = "string"
+required = false
+description = "Hostname, IP address, or URL for this endpoint (overrides peer_ref.connection.host)"
+
+[[table.field]]
+name = "connection.port"
+type = "integer"
+required = false
+min = 1
+max = 65535
+description = "Port number for this endpoint (overrides peer_ref.connection.port)"
+
+[[table.field]]
+name = "connection.protocol"
+type = "string"
+required = false
+enum = ["http", "https", "dicom", "harmony", "fhir", "hl7v2", "custom"]
+description = "Protocol type for this endpoint (overrides peer_ref.protocol)"
+
+[[table.field]]
+name = "connection.base_path"
+type = "string"
+required = false
+description = "Base path or URL prefix for this endpoint (overrides peer_ref.connection.base_path)"
+
+[[table.field]]
+name = "authentication"
+type = "table"
+required = false
+description = "Authentication configuration for this endpoint (overrides peer_ref settings if both are specified)"
+
+[[table.field]]
+name = "authentication.method"
+type = "string"
+required = false
+enum = ["none", "basic", "bearer", "api_key", "mutual_tls", "custom"]
+description = "Authentication method for this endpoint (overrides peer_ref.authentication.method)"
+
+[[table.field]]
+name = "authentication.credentials_path"
+type = "string"
+required = false
+description = "Path to credentials file (overrides peer_ref.authentication.credentials_path)"
+
+[[table.field]]
 name = "options"
 type = "table"
 required = false
@@ -130,6 +188,80 @@ name = "service"
 type = "string"
 required = true
 description = "Service type for this backend (must match a registered service)"
+
+[[table.field]]
+name = "target_ref"
+type = "string"
+required = false
+description = "Reference to a target defined in the main config. When set, inherits the target's connection settings as defaults."
+
+[[table.field]]
+name = "connection"
+type = "table"
+required = false
+description = "Connection configuration for this backend (overrides target_ref settings if both are specified)"
+
+[[table.field]]
+name = "connection.host"
+type = "string"
+required = false
+description = "Hostname, IP address, or URL for this backend (overrides target_ref.connection.host)"
+
+[[table.field]]
+name = "connection.port"
+type = "integer"
+required = false
+min = 1
+max = 65535
+description = "Port number for this backend (overrides target_ref.connection.port)"
+
+[[table.field]]
+name = "connection.protocol"
+type = "string"
+required = false
+enum = ["http", "https", "dicom", "harmony", "fhir", "hl7v2", "custom"]
+description = "Protocol type for this backend (overrides target_ref.protocol)"
+
+[[table.field]]
+name = "connection.base_path"
+type = "string"
+required = false
+description = "Base path or URL prefix for this backend (overrides target_ref.connection.base_path)"
+
+[[table.field]]
+name = "authentication"
+type = "table"
+required = false
+description = "Authentication configuration for this backend (overrides target_ref settings if both are specified)"
+
+[[table.field]]
+name = "authentication.method"
+type = "string"
+required = false
+enum = ["none", "basic", "bearer", "api_key", "mutual_tls", "custom"]
+description = "Authentication method for this backend (overrides target_ref.authentication.method)"
+
+[[table.field]]
+name = "authentication.credentials_path"
+type = "string"
+required = false
+description = "Path to credentials file (overrides target_ref.authentication.credentials_path)"
+
+[[table.field]]
+name = "timeout_secs"
+type = "integer"
+required = false
+min = 1
+max = 300
+description = "Request timeout in seconds for this backend (overrides target_ref.timeout_secs)"
+
+[[table.field]]
+name = "max_retries"
+type = "integer"
+required = false
+min = 0
+max = 10
+description = "Maximum retry attempts for this backend (overrides target_ref.max_retries)"
 
 [[table.field]]
 name = "options"
