@@ -259,6 +259,52 @@ type = "string"
 required = false
 description = "JWT token audience for jwtauth middleware"
 
+[[table.field]]
+name = "options.trusted_issuers"
+type = "array"
+array_item_type = "string"
+required = false
+min_items = 1
+description = "List of trusted JWT token issuers for validation. When specified, JWTs must have an 'iss' claim matching one of these values."
+
+[[table.field]]
+name = "options.jwks_uri"
+type = "string"
+required = false
+description = "JWKS (JSON Web Key Set) URI for fetching public keys to verify JWT signatures (e.g., 'https://auth.example.com/.well-known/jwks.json')"
+
+[[table.field]]
+name = "options.algorithms"
+type = "array"
+array_item_type = "string"
+required = false
+min_items = 1
+description = "List of allowed JWT signing algorithms (e.g., ['RS256', 'ES256']). If not specified, accepts common secure algorithms."
+
+[[table.field]]
+name = "options.required_claims"
+type = "array"
+array_item_type = "string"
+required = false
+min_items = 1
+description = "List of claims that must be present in the JWT (e.g., ['sub', 'email', 'scope'])"
+
+[[table.field]]
+name = "options.leeway_seconds"
+type = "integer"
+required = false
+default = 0
+min = 0
+max = 300
+description = "Leeway in seconds for validating exp (expiration) and nbf (not before) claims to account for clock skew"
+
+[[table.field]]
+name = "options.validate_expiry"
+type = "boolean"
+required = false
+default = true
+description = "Whether to validate the JWT expiration (exp) claim"
+
 # Path Filter Middleware Options
 [[table.field]]
 name = "options.rules"

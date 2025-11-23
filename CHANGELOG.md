@@ -16,6 +16,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Target authentication configuration: `authentication.method`, `authentication.credentials_path`
 - Target connection configuration: `connection.host` (required), `connection.port` (optional)
 - Supported protocol types: `http`, `https`, `dicom`, `harmony`, `fhir`, `hl7v2`, `custom`
+- JWT Auth Middleware enhanced validation options:
+  - `options.trusted_issuers` - Array of trusted JWT issuers for validation
+  - `options.jwks_uri` - JWKS URI for fetching public keys
+  - `options.algorithms` - Array of allowed JWT signing algorithms
+  - `options.required_claims` - Array of claims that must be present in JWT
+  - `options.leeway_seconds` - Clock skew tolerance for time-based claims (0-300 seconds, default 0)
+  - `options.validate_expiry` - Toggle for expiration validation (default true)
 
 ### Changed
 - Schema version bumped from 1.4.0 to 1.5.0 in `harmony-config-schema.toml`
