@@ -5,31 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.8.0] - 2025-11-24
+
+### Breaking Changes
+- **Global Authentication Architecture**:
+  - Introduced `authentications.*` table in config schema for reusable auth definitions.
+  - `authentication` field in `peers`, `targets`, `endpoints`, `backends` is now a string reference ID instead of an inline table.
+  - Middleware authentication (e.g., for `jwt_auth`) now uses the `authentication` reference instead of inline options.
+  - Removed JWT and Basic Auth specific options from middleware configuration.
+- **Global Policies and Rules**:
+  - Moved `policies.*` and `rules.*` definitions from Pipeline schema to Config schema to make them globally available.
 
 ### Added
-- New `peers.*` table for defining external systems that send requests to Harmony
-- Peer fields: `id`, `name`, `connection` (table), `type`, `description`, `enabled`, `tags`
-- Peer connection configuration: `connection.host` (required), `connection.port` (optional)
-- New `targets.*` table for defining external systems that receive requests from Harmony backends
-- Target fields: `id`, `name`, `connection` (table), `type`, `description`, `enabled`, `authentication`, `tags`, `timeout_secs`, `max_retries`
-- Target authentication configuration: `authentication.method`, `authentication.credentials_path`
-- Target connection configuration: `connection.host` (required), `connection.port` (optional)
-- Supported protocol types: `http`, `https`, `dicom`, `harmony`, `fhir`, `hl7v2`, `custom`
-- JWT Auth Middleware enhanced validation options:
-  - `options.trusted_issuers` - Array of trusted JWT issuers for validation
-  - `options.jwks_uri` - JWKS URI for fetching public keys
-  - `options.algorithms` - Array of allowed JWT signing algorithms
-  - `options.required_claims` - Array of claims that must be present in JWT
-  - `options.leeway_seconds` - Clock skew tolerance for time-based claims (0-300 seconds, default 0)
-  - `options.validate_expiry` - Toggle for expiration validation (default true)
+- New `peers.*` table for defining source systems.
+- New `targets.*` table for defining destination systems.
+- Enhanced JWT configuration options (now in `authentications`): `trusted_issuers`, `jwks_uri`, `algorithms`, `required_claims`.
 
 ### Changed
-- Schema version bumped from 1.4.0 to 1.5.0 in `harmony-config-schema.toml`
-
-### Fixed
-
-### Removed
+- Schema version synchronized to 1.8.0 for both `config` and `pipeline`.
 
 ## [1.7.0] - 2025-01-16
 

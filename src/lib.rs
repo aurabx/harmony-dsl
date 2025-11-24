@@ -43,7 +43,7 @@
 //!
 //! ## Version
 //!
-//! Schema version: 1.0
+//! Schema version: Config 1.8.0 / Pipeline 1.8.0
 //!
 //! ## License
 //!
