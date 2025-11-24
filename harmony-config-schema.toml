@@ -3,7 +3,7 @@
 # It can be parsed and validated in both Rust (harmony-proxy) and PHP (runbeam cloud API)
 
 [schema]
-version = "1.8.0"
+version = "1.9.0"
 description = "Harmony Proxy configuration schema for gateway configurations"
 
 # ========================================================================================
@@ -361,23 +361,9 @@ description = "Whether this peer is currently enabled and can send requests"
 
 [[table.field]]
 name = "authentication"
-type = "table"
-required = false
-description = "Authentication configuration for this peer"
-
-[[table.field]]
-name = "authentication.method"
 type = "string"
 required = false
-enum = ["none", "basic", "bearer", "api_key", "mutual_tls", "custom"]
-default = "none"
-description = "Authentication method used when receiving requests from this peer"
-
-[[table.field]]
-name = "authentication.credentials_path"
-type = "string"
-required = false
-description = "Path to credentials file (for basic auth, api keys, certificates, etc.)"
+description = "Reference to an authentication configuration (e.g., 'authentications.my-auth')"
 
 [[table.field]]
 name = "tags"
@@ -485,23 +471,9 @@ description = "Whether this target is currently enabled and can receive requests
 
 [[table.field]]
 name = "authentication"
-type = "table"
-required = false
-description = "Authentication configuration for this target"
-
-[[table.field]]
-name = "authentication.method"
 type = "string"
 required = false
-enum = ["none", "basic", "bearer", "api_key", "mutual_tls", "custom"]
-default = "none"
-description = "Authentication method used when sending requests to this target"
-
-[[table.field]]
-name = "authentication.credentials_path"
-type = "string"
-required = false
-description = "Path to credentials file (for basic auth, api keys, certificates, etc.)"
+description = "Reference to an authentication configuration (e.g., 'authentications.my-auth')"
 
 [[table.field]]
 name = "tags"
@@ -558,6 +530,200 @@ required = false
 enum = ["endpoint", "backend"]
 min_items = 1
 description = "Service capabilities - indicates whether this service can be used as an endpoint (receives requests) and/or backend (forwards requests). Can specify one or both."
+
+# ========================================================================================
+# AUTHENTICATIONS TABLE - Authentication configurations
+# ========================================================================================
+[[table]]
+name = "authentications.*"
+pattern = true
+pattern_constraint = "^[a-z0-9_-]+$"
+required = false
+description = "Authentication configurations that can be referenced by peers, endpoints, and middleware"
+
+[[table.field]]
+name = "id"
+type = "string"
+required = true
+description = "Unique identifier for the authentication configuration"
+
+[[table.field]]
+name = "method"
+type = "string"
+required = true
+enum = ["jwt", "basic", "bearer", "api_key", "mutual_tls", "custom", "none"]
+description = "Authentication method/type"
+
+[[table.field]]
+name = "options"
+type = "table"
+required = false
+description = "Authentication-specific options"
+
+[[table.field]]
+name = "options.credentials_path"
+type = "string"
+required = false
+description = "Path to credentials file (for basic auth, api keys, certificates, etc.)"
+
+# Basic Auth Options
+[[table.field]]
+name = "options.username"
+type = "string"
+required = false
+description = "Username for basic auth"
+
+[[table.field]]
+name = "options.password"
+type = "string"
+required = false
+description = "Password for basic auth"
+
+# JWT Auth Options
+[[table.field]]
+name = "options.issuer"
+type = "string"
+required = false
+description = "JWT token issuer"
+
+[[table.field]]
+name = "options.audience"
+type = "string"
+required = false
+description = "JWT token audience"
+
+[[table.field]]
+name = "options.trusted_issuers"
+type = "array"
+array_item_type = "string"
+required = false
+min_items = 1
+description = "List of trusted JWT token issuers for validation. When specified, JWTs must have an 'iss' claim matching one of these values."
+
+[[table.field]]
+name = "options.jwks_uri"
+type = "string"
+required = false
+description = "JWKS (JSON Web Key Set) URI for fetching public keys to verify JWT signatures (e.g., 'https://auth.example.com/.well-known/jwks.json')"
+
+[[table.field]]
+name = "options.algorithms"
+type = "array"
+array_item_type = "string"
+required = false
+min_items = 1
+description = "List of allowed JWT signing algorithms (e.g., ['RS256', 'ES256']). If not specified, accepts common secure algorithms."
+
+[[table.field]]
+name = "options.required_claims"
+type = "array"
+array_item_type = "string"
+required = false
+min_items = 1
+description = "List of claims that must be present in the JWT (e.g., ['sub', 'email', 'scope'])"
+
+[[table.field]]
+name = "options.leeway_seconds"
+type = "integer"
+required = false
+default = 0
+min = 0
+max = 300
+description = "Leeway in seconds for validating exp (expiration) and nbf (not before) claims to account for clock skew"
+
+[[table.field]]
+name = "options.validate_expiry"
+type = "boolean"
+required = false
+default = true
+description = "Whether to validate the JWT expiration (exp) claim"
+
+# ========================================================================================
+# POLICIES TABLE - Policy definitions (multiple instances)
+# ========================================================================================
+[[table]]
+name = "policies.*"
+pattern = true
+pattern_constraint = "^[a-z0-9_-]+$"
+required = false
+description = "Policy definitions that can be referenced by policies middleware. Each policy contains rules that define access control logic."
+
+[[table.field]]
+name = "id"
+type = "string"
+required = true
+description = "Unique identifier for the policy (must match the table suffix)"
+
+[[table.field]]
+name = "name"
+type = "string"
+required = false
+description = "Human-readable name for the policy"
+
+[[table.field]]
+name = "enabled"
+type = "boolean"
+required = false
+default = true
+description = "Whether this policy is enabled and should be applied"
+
+[[table.field]]
+name = "rules"
+type = "array"
+array_item_type = "string"
+required = false
+min_items = 1
+description = "Array of rule IDs that this policy uses. Rules are defined in the top-level [rules.*] tables."
+
+# ========================================================================================
+# RULES TABLE - Rule definitions (multiple instances)
+# ========================================================================================
+[[table]]
+name = "rules.*"
+pattern = true
+pattern_constraint = "^[a-z0-9_-]+$"
+required = false
+description = "Rule definitions that can be referenced by policies. Each rule defines access control logic."
+
+[[table.field]]
+name = "id"
+type = "string"
+required = true
+description = "Unique identifier for the rule (must match the table suffix)"
+
+[[table.field]]
+name = "name"
+type = "string"
+required = false
+description = "Human-readable name for the rule"
+
+[[table.field]]
+name = "type"
+type = "string"
+required = true
+description = "Type of rule (e.g., 'allow_all', 'deny_all', 'ip_allow', 'ip_deny', 'rate_limit', etc.)"
+
+[[table.field]]
+name = "weight"
+type = "integer"
+required = false
+default = 100
+min = 0
+max = 1000
+description = "Priority weight for rule evaluation (higher values = higher priority)"
+
+[[table.field]]
+name = "enabled"
+type = "boolean"
+required = false
+default = true
+description = "Whether this rule is currently active"
+
+[[table.field]]
+name = "options"
+type = "table"
+required = false
+description = "Rule-specific configuration options (structure depends on rule type)"
 
 # ========================================================================================
 # MIDDLEWARE_TYPES TABLE - Middleware type registrations
