@@ -144,7 +144,13 @@ description = "Path prefix for HTTP endpoints"
 name = "options.aet"
 type = "string"
 required = false
-description = "Application Entity Title for DICOM endpoints"
+description = "[DEPRECATED - use 'local_aet'] Application Entity Title for DICOM endpoints (was previously used for the local AE title)"
+
+[[table.field]]
+name = "options.local_aet"
+type = "string"
+required = false
+description = "Local Application Entity Title for DICOM SCP endpoints (e.g., 'HARMONY_SCP')"
 
 [[table.field]]
 name = "options.port"
@@ -153,6 +159,42 @@ required = false
 min = 1
 max = 65535
 description = "Port for DICOM endpoints"
+
+[[table.field]]
+name = "options.enable_echo"
+type = "boolean"
+required = false
+description = "Whether to enable support for C-ECHO operations on this DICOM SCP endpoint"
+
+[[table.field]]
+name = "options.enable_store"
+type = "boolean"
+required = false
+description = "Whether to enable support for C-STORE operations on this DICOM SCP endpoint"
+
+[[table.field]]
+name = "options.enable_find"
+type = "boolean"
+required = false
+description = "Whether to enable support for C-FIND operations on this DICOM SCP endpoint"
+
+[[table.field]]
+name = "options.enable_move"
+type = "boolean"
+required = false
+description = "Whether to enable support for C-MOVE operations on this DICOM SCP endpoint"
+
+[[table.field]]
+name = "options.enable_get"
+type = "boolean"
+required = false
+description = "Whether to enable support for C-GET operations on this DICOM SCP endpoint"
+
+[[table.field]]
+name = "options.storage_dir"
+type = "string"
+required = false
+description = "Optional storage directory override for received DICOM files when using filesystem-backed C-STORE"
 
 # ========================================================================================
 # BACKENDS TABLE - Backend configurations (multiple instances)
@@ -282,6 +324,55 @@ name = "options.local_aet"
 type = "string"
 required = false
 description = "Local Application Entity Title for DICOM SCU operations"
+
+# Storage Backend Options
+[[table.field]]
+name = "options.root"
+type = "string"
+required = false
+description = "Root location for storage backends (e.g., local filesystem directory like 'data/archive' or an S3 URL such as 's3://bucket/prefix')"
+
+[[table.field]]
+name = "options.write_pattern"
+type = "string"
+required = false
+description = "Write pattern template for storage backends (e.g., '{file}' to use the file field from the C-STORE payload)"
+
+[[table.field]]
+name = "options.read_pattern"
+type = "string"
+required = false
+description = "Read pattern template for storage backends when performing GET/read operations (e.g., '{storedPath}' or '{tenant}/{filename}.dcm')"
+
+[[table.field]]
+name = "options.region"
+type = "string"
+required = false
+description = "S3 region override when using an S3-backed storage root"
+
+[[table.field]]
+name = "options.bucket"
+type = "string"
+required = false
+description = "S3 bucket override when using an S3-backed storage root (normally inferred from the 'root' URL)"
+
+[[table.field]]
+name = "options.access_key_id"
+type = "string"
+required = false
+description = "S3 access key ID for S3-backed storage"
+
+[[table.field]]
+name = "options.secret_access_key"
+type = "string"
+required = false
+description = "S3 secret access key for S3-backed storage"
+
+[[table.field]]
+name = "options.endpoint"
+type = "string"
+required = false
+description = "Custom S3-compatible endpoint URL for S3-backed storage (e.g., MinIO)"
 
 # ========================================================================================
 # MIDDLEWARE TABLE - Middleware instance configurations (multiple instances)

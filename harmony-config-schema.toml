@@ -264,21 +264,42 @@ name = "options.path"
 type = "string"
 required = false
 default = "./tmp"
-description = "Filesystem path for file storage"
+description = "Filesystem path for file storage (for filesystem backend)"
 
 [[table.field]]
 name = "options.bucket"
 type = "string"
 required = true
 required_if = "backend == 's3'"
-description = "S3 bucket name"
+description = "S3 bucket name (for s3 backend)"
 
 [[table.field]]
 name = "options.region"
 type = "string"
 required = false
 required_if = "backend == 's3'"
-description = "S3 region"
+description = "S3 region (for s3 backend, default is provider-specific if omitted)"
+
+[[table.field]]
+name = "options.access_key_id"
+type = "string"
+required = false
+required_if = "backend == 's3'"
+description = "S3 access key ID when using explicit credentials"
+
+[[table.field]]
+name = "options.secret_access_key"
+type = "string"
+required = false
+required_if = "backend == 's3'"
+description = "S3 secret access key when using explicit credentials"
+
+[[table.field]]
+name = "options.endpoint"
+type = "string"
+required = false
+required_if = "backend == 's3'"
+description = "Custom S3-compatible endpoint URL (for e.g. MinIO or non-AWS providers)"
 
 # ========================================================================================
 # PEERS TABLE - Peer system configurations
