@@ -139,6 +139,21 @@ type = "string"
 required = false
 description = "Path prefix for HTTP endpoints"
 
+# JMIX Service Endpoint Options
+[[table.field]]
+name = "options.skip_hashing"
+type = "boolean"
+required = false
+default = false
+description = "When true, the JMIX endpoint skips content hashing during package generation. Defaults to false."
+
+[[table.field]]
+name = "options.skip_listing"
+type = "boolean"
+required = false
+default = false
+description = "When true, the JMIX endpoint skips directory listing when building JMIX packages. Defaults to false."
+
 # DICOM Service Endpoint Options
 [[table.field]]
 name = "options.aet"
@@ -462,6 +477,12 @@ required = false
 min_items = 1
 description = "Array of policy IDs for the policies middleware type. Policies are defined in the top-level [policies.*] tables."
 
+# JMIX Builder Middleware Options
+[[table.field]]
+name = "options.store_dir"
+type = "string"
+required = false
+description = "Optional override for the JMIX builder's staging directory. When set, resolve_store_root(options) writes JMIX packages here instead of using the global storage backend."
 
 # ========================================================================================
 # MIDDLEWARE_TYPES TABLE - Additional middleware type registrations (optional, for pipeline-specific types)
