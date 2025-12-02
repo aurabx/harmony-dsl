@@ -644,13 +644,40 @@ min_items = 1
 description = "List of claims that must be present in the JWT (e.g., ['sub', 'email', 'scope'])"
 
 [[table.field]]
+name = "options.public_key_path"
+type = "string"
+required = false
+description = "Filesystem path to RSA public key PEM for JWT RS256 verification"
+
+[[table.field]]
+name = "options.use_hs256"
+type = "boolean"
+required = false
+description = "Use HS256 with a shared secret instead of RS256 public key"
+
+[[table.field]]
+name = "options.hs256_secret"
+type = "string"
+required = false
+description = "Shared secret for HS256 JWT validation when options.use_hs256 is true"
+
+[[table.field]]
+name = "options.leeway_secs"
+type = "integer"
+required = false
+default = 0
+min = 0
+max = 300
+description = "Leeway in seconds for validating exp (expiration) and nbf (not before) claims to account for clock skew (preferred name; alias for options.leeway_seconds)"
+
+[[table.field]]
 name = "options.leeway_seconds"
 type = "integer"
 required = false
 default = 0
 min = 0
 max = 300
-description = "Leeway in seconds for validating exp (expiration) and nbf (not before) claims to account for clock skew"
+description = "[DEPRECATED - use 'options.leeway_secs'] Leeway in seconds for validating exp (expiration) and nbf (not before) claims to account for clock skew"
 
 [[table.field]]
 name = "options.validate_expiry"
