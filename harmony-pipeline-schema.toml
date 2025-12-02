@@ -176,6 +176,12 @@ max = 65535
 description = "Port for DICOM endpoints"
 
 [[table.field]]
+name = "options.bind_addr"
+type = "string"
+required = false
+description = "Optional listener bind address override for inbound endpoints (e.g., DICOM SCP). When set, this address is used for the listening socket instead of connection.host or the network's tcp_config.bind_address."
+
+[[table.field]]
 name = "options.enable_echo"
 type = "boolean"
 required = false
