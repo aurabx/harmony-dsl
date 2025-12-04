@@ -443,14 +443,14 @@ type = "string"
 required = false
 enum = ["left", "right", "both"]
 default = "left"
-description = "When to apply transform: left (request), right (response), or both"
+description = "When to apply middleware on the left (request), right (response), or both sides of the pipeline. Used by transform and log_dump middleware types."
 
 [[table.field]]
 name = "options.fail_on_error"
 type = "boolean"
 required = false
 default = false
-description = "Whether to fail the request if transform fails"
+description = "Whether to fail the request if transform middleware fails"
 
 
 # Path Filter Middleware Options
@@ -490,9 +490,51 @@ type = "string"
 required = false
 description = "Optional override for the JMIX builder's staging directory. When set, resolve_store_root(options) writes JMIX packages here instead of using the global storage backend."
 
+# Log Dump Middleware Options
+[[table.field]]
+name = "options.pretty"
+type = "boolean"
+required = false
+default = true
+description = "Whether to pretty-print JSON output for the log_dump middleware. Defaults to true."
+
+[[table.field]]
+name = "options.max_bytes"
+type = "integer"
+required = false
+default = 65536
+min = 0
+description = "Maximum number of bytes from request/response content to include in log_dump output. Defaults to 65536."
+
+[[table.field]]
+name = "options.redact_headers"
+type = "array"
+array_item_type = "string"
+required = false
+description = "List of HTTP header names to redact from log_dump output (case-insensitive)."
+
+[[table.field]]
+name = "options.redact_metadata"
+type = "array"
+array_item_type = "string"
+required = false
+description = "List of metadata keys to redact from log_dump output."
+
+[[table.field]]
+name = "options.redact_data_fields"
+type = "array"
+array_item_type = "string"
+required = false
+description = "List of normalized data field paths to redact from log_dump output (dot path notation)."
+
+[[table.field]]
+name = "options.label"
+type = "string"
+required = false
+description = "Optional label used by the log_dump middleware to identify the dump location within the pipeline."
+
 # ========================================================================================
 # MIDDLEWARE_TYPES TABLE - Additional middleware type registrations (optional, for pipeline-specific types)
-# ========================================================================================
 [[table]]
 name = "middleware_types.*"
 pattern = true
