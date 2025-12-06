@@ -90,6 +90,20 @@ default = 1000
 min = 1
 description = "Maximum form fields per request"
 
+[[table.field]]
+name = "required_env_vars"
+type = "array"
+array_item_type = "string"
+required = false
+description = "List of environment variables required at proxy startup"
+
+[[table.field]]
+name = "sensitive_field_patterns"
+type = "array"
+array_item_type = "string"
+required = false
+description = "List of field name patterns to treat as sensitive for masking in logs (e.g., '*_key', 'secret')"
+
 # ========================================================================================
 # RUNBEAM TABLE - Runbeam Cloud integration configuration
 # ========================================================================================
