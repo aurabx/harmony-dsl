@@ -1,6 +1,6 @@
 [package]
 name = "harmony-dsl"
-version = "1.8.0"
+version = "1.9.0"
 edition = "2021"
 description = "TOML Schema DSL definitions for Harmony Proxy configuration files"
 license = "MIT"
