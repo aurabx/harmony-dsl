@@ -3,7 +3,7 @@
 # It can be parsed and validated in both Rust (harmony-proxy) and PHP (runbeam cloud API)
 
 [schema]
-version = "1.8.0"
+version = "1.9.0"
 description = "Harmony Proxy pipeline configuration schema for routing and middleware chains"
 
 # ========================================================================================
@@ -451,6 +451,13 @@ type = "boolean"
 required = false
 default = false
 description = "Whether to fail the request if transform middleware fails"
+
+[[table.field]]
+name = "options.debug"
+type = "boolean"
+required = false
+default = false
+description = "Enable debug logging and additional diagnostic output for transform middleware. Defaults to false."
 
 
 # Path Filter Middleware Options

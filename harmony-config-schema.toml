@@ -3,7 +3,7 @@
 # It can be parsed and validated in both Rust (harmony-proxy) and PHP (runbeam cloud API)
 
 [schema]
-version = "1.8.0"
+version = "1.10.0-dev"
 description = "Harmony Proxy configuration schema for gateway configurations"
 
 # ========================================================================================
