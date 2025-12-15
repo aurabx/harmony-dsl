@@ -3,7 +3,7 @@
 # It can be parsed and validated in both Rust (harmony-proxy) and PHP (runbeam cloud API)
 
 [schema]
-version = "1.9.0"
+version = "1.10.0"
 description = "Harmony Proxy pipeline configuration schema for routing and middleware chains"
 
 # ========================================================================================
@@ -443,7 +443,7 @@ type = "string"
 required = false
 enum = ["left", "right", "both"]
 default = "left"
-description = "When to apply middleware on the left (request), right (response), or both sides of the pipeline. Used by transform and log_dump middleware types."
+description = "When to apply middleware on the left (request), right (response), or both sides of the pipeline. Used by transform, log_dump, and webhook middleware types."
 
 [[table.field]]
 name = "options.fail_on_error"
@@ -539,6 +539,37 @@ name = "options.label"
 type = "string"
 required = false
 description = "Optional label used by the log_dump middleware to identify the dump location within the pipeline."
+
+# Webhook Middleware Options
+[[table.field]]
+name = "options.endpoint"
+type = "string"
+required = false
+required_if = "type == 'webhook'"
+description = "Webhook endpoint URL for the webhook middleware (http/https)."
+
+[[table.field]]
+name = "options.redact_headers"
+type = "array"
+array_item_type = "string"
+required = false
+description = "List of HTTP header names to redact from the webhook payload (case-insensitive)."
+
+[[table.field]]
+name = "options.redact_metadata"
+type = "array"
+array_item_type = "string"
+required = false
+description = "List of metadata keys to redact from the webhook payload."
+
+[[table.field]]
+name = "options.timeout_secs"
+type = "integer"
+required = false
+default = 5
+min = 1
+max = 300
+description = "Timeout in seconds for the webhook POST. Defaults to 5 seconds."
 
 # ========================================================================================
 # MIDDLEWARE_TYPES TABLE - Additional middleware type registrations (optional, for pipeline-specific types)
