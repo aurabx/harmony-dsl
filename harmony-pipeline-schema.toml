@@ -3,7 +3,7 @@
 # It can be parsed and validated in both Rust (harmony-proxy) and PHP (runbeam cloud API)
 
 [schema]
-version = "1.10.0"
+version = "1.11.0-dev"
 description = "Harmony Proxy pipeline configuration schema for routing and middleware chains"
 
 # ========================================================================================
@@ -111,14 +111,20 @@ description = "Port number for this endpoint (overrides peer_ref.connection.port
 name = "connection.protocol"
 type = "string"
 required = false
-enum = ["http", "https", "dicom", "harmony", "fhir", "hl7v2", "custom"]
-description = "Protocol type for this endpoint (overrides peer_ref.protocol)"
+enum = ["http", "https", "h3", "dicom", "harmony", "fhir", "hl7v2", "custom"]
+description = "Protocol type for this endpoint. 'h3' indicates HTTP/3 over QUIC (overrides peer_ref.protocol)"
 
 [[table.field]]
 name = "connection.base_path"
 type = "string"
 required = false
 description = "Base path or URL prefix for this endpoint (overrides peer_ref.connection.base_path)"
+
+[[table.field]]
+name = "connection.ca_cert_path"
+type = "string"
+required = false
+description = "Path to custom CA certificate (PEM format) for TLS validation with https/h3 protocols (overrides peer_ref.connection.ca_cert_path)"
 
 [[table.field]]
 name = "authentication"
@@ -269,14 +275,20 @@ description = "Port number for this backend (overrides target_ref.connection.por
 name = "connection.protocol"
 type = "string"
 required = false
-enum = ["http", "https", "dicom", "harmony", "fhir", "hl7v2", "custom"]
-description = "Protocol type for this backend (overrides target_ref.protocol)"
+enum = ["http", "https", "h3", "dicom", "harmony", "fhir", "hl7v2", "custom"]
+description = "Protocol type for this backend. 'h3' indicates HTTP/3 over QUIC (overrides target_ref.protocol)"
 
 [[table.field]]
 name = "connection.base_path"
 type = "string"
 required = false
 description = "Base path or URL prefix for this backend (overrides target_ref.connection.base_path)"
+
+[[table.field]]
+name = "connection.ca_cert_path"
+type = "string"
+required = false
+description = "Path to custom CA certificate (PEM format) for TLS validation with https/h3 protocols (overrides target_ref.connection.ca_cert_path)"
 
 [[table.field]]
 name = "authentication"
@@ -318,6 +330,24 @@ name = "options.base_url"
 type = "string"
 required = false
 description = "Base URL for HTTP backends"
+
+# HTTP/3 Backend Options
+# Note: HTTP/3 backends use the 'http3' service type and connect over QUIC/TLS 1.3.
+# The connection config should have protocol = "h3" or use the dedicated http3 service.
+[[table.field]]
+name = "options.ca_cert_path"
+type = "string"
+required = false
+description = "Path to custom CA certificate (PEM format) for HTTP/3 TLS validation. Required for self-signed certificates."
+
+[[table.field]]
+name = "options.timeout_secs"
+type = "integer"
+required = false
+default = 30
+min = 1
+max = 300
+description = "Request timeout in seconds for HTTP/3 backends"
 
 # DICOM Backend Options
 [[table.field]]

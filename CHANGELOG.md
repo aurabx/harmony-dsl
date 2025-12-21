@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **HTTP/3 (QUIC) Support** (AURA-2194):
+  - New `[network.*.http3]` configuration section for HTTP/3 listeners with `bind_address`, `bind_port`, `cert_path`, and `key_path` fields
+  - Added `h3` to protocol enum for peers, targets, endpoints, and backends
+  - Added `ca_cert_path` field to connection configurations for custom CA certificate support with https/h3 protocols
+  - HTTP/3 backend options: `options.ca_cert_path` and `options.timeout_secs`
 - Added debug key to transform middleware spec
 
 ## [1.9.0] - 2025-12-07

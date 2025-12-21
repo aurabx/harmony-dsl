@@ -3,7 +3,7 @@
 # It can be parsed and validated in both Rust (harmony-proxy) and PHP (runbeam cloud API)
 
 [schema]
-version = "1.10.0-dev"
+version = "1.11.0-dev"
 description = "Harmony Proxy configuration schema for gateway configurations"
 
 # ========================================================================================
@@ -221,6 +221,44 @@ min = 1
 max = 65535
 description = "TCP listener bind port - Port number for the TCP listener"
 
+[[table.field]]
+name = "http3"
+type = "table"
+required = false
+description = "HTTP/3 (QUIC) listener configuration. When present, enables HTTP/3 on this network alongside TCP-based protocols."
+
+[[table.field]]
+name = "http3.bind_address"
+type = "string"
+required = true
+required_if = "http3 exists"
+default = "0.0.0.0"
+description = "UDP bind address for HTTP/3 listener"
+
+[[table.field]]
+name = "http3.bind_port"
+type = "integer"
+required = true
+required_if = "http3 exists"
+default = 443
+min = 1
+max = 65535
+description = "UDP port for HTTP/3 listener"
+
+[[table.field]]
+name = "http3.cert_path"
+type = "string"
+required = true
+required_if = "http3 exists"
+description = "Path to PEM-encoded TLS certificate chain for HTTP/3 (required for QUIC)"
+
+[[table.field]]
+name = "http3.key_path"
+type = "string"
+required = true
+required_if = "http3 exists"
+description = "Path to PEM-encoded TLS private key for HTTP/3 (required for QUIC)"
+
 # ========================================================================================
 # LOGGING TABLE - Logging configuration
 # ========================================================================================
@@ -365,11 +403,17 @@ required = false
 description = "Base path or URL prefix for the peer connection (e.g., '/api/v1')"
 
 [[table.field]]
+name = "connection.ca_cert_path"
+type = "string"
+required = false
+description = "Path to custom CA certificate (PEM format) for TLS validation. Used with https and h3 protocols when connecting to servers with self-signed or custom CA certificates."
+
+[[table.field]]
 name = "protocol"
 type = "string"
 required = true
-enum = ["http", "https", "dicom", "harmony", "fhir", "hl7v2", "custom"]
-description = "Protocol type used by the peer system. Note: 'type' is accepted as an alias for backward compatibility in TOML files"
+enum = ["http", "https", "h3", "dicom", "harmony", "fhir", "hl7v2", "custom"]
+description = "Protocol type used by the peer system. 'h3' indicates HTTP/3 over QUIC. Note: 'type' is accepted as an alias for backward compatibility in TOML files"
 
 # Backward Compatibility: The field was previously named 'type' in schema versions prior to 1.9.0.
 # TOML files may still use 'type' which will be aliased to 'protocol' during deserialization.
@@ -378,7 +422,7 @@ description = "Protocol type used by the peer system. Note: 'type' is accepted a
 name = "type"
 type = "string"
 required = false
-enum = ["http", "https", "dicom", "harmony", "fhir", "hl7v2", "custom"]
+enum = ["http", "https", "h3", "dicom", "harmony", "fhir", "hl7v2", "custom"]
 description = "[DEPRECATED - use 'protocol'] Protocol type used by the peer system. Maintained for backward compatibility."
 
 [[table.field]]
@@ -475,11 +519,17 @@ required = false
 description = "Base path or URL prefix for the target connection (e.g., '/api/v1')"
 
 [[table.field]]
+name = "connection.ca_cert_path"
+type = "string"
+required = false
+description = "Path to custom CA certificate (PEM format) for TLS validation. Used with https and h3 protocols when connecting to servers with self-signed or custom CA certificates."
+
+[[table.field]]
 name = "protocol"
 type = "string"
 required = true
-enum = ["http", "https", "dicom", "harmony", "fhir", "hl7v2", "custom"]
-description = "Protocol type used by the target system. Note: 'type' is accepted as an alias for backward compatibility in TOML files"
+enum = ["http", "https", "h3", "dicom", "harmony", "fhir", "hl7v2", "custom"]
+description = "Protocol type used by the target system.
 
 # Backward Compatibility: The field was previously named 'type' in schema versions prior to 1.9.0.
 # TOML files may still use 'type' which will be aliased to 'protocol' during deserialization.
@@ -488,7 +538,7 @@ description = "Protocol type used by the target system. Note: 'type' is accepted
 name = "type"
 type = "string"
 required = false
-enum = ["http", "https", "dicom", "harmony", "fhir", "hl7v2", "custom"]
+enum = ["http", "https", "h3", "dicom", "harmony", "fhir", "hl7v2", "custom"]
 description = "[DEPRECATED - use 'protocol'] Protocol type used by the target system. Maintained for backward compatibility."
 
 [[table.field]]
