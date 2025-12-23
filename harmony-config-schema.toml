@@ -222,6 +222,25 @@ max = 65535
 description = "TCP listener bind port - Port number for the TCP listener"
 
 [[table.field]]
+name = "tcp_config.cert_path"
+type = "string"
+required = false
+description = "Path to PEM-encoded TLS certificate chain for HTTPS (optional, enables HTTPS when both cert_path and key_path are provided)"
+
+[[table.field]]
+name = "tcp_config.key_path"
+type = "string"
+required = false
+description = "Path to PEM-encoded TLS private key for HTTPS (optional, enables HTTPS when both cert_path and key_path are provided). Supports PKCS#8 (preferred) and RSA PKCS#1 key formats."
+
+[[table.field]]
+name = "tcp_config.force_https"
+type = "boolean"
+required = false
+default = false
+description = "Force HTTPS redirect - when true, returns HTTP 301 redirect to https:// URL for all requests. Only applies when TLS is NOT configured (no cert_path/key_path)."
+
+[[table.field]]
 name = "http3"
 type = "table"
 required = false

@@ -13,6 +13,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Added `h3` to protocol enum for peers, targets, endpoints, and backends
   - Added `ca_cert_path` field to connection configurations for custom CA certificate support with https/h3 protocols
   - HTTP/3 backend options: `options.ca_cert_path` and `options.timeout_secs`
+- **HTTPS Support for HTTP Adapter**:
+  - Added `tcp_config.cert_path` field for TLS certificate chain (PEM format)
+  - Added `tcp_config.key_path` field for TLS private key (PEM format, supports PKCS#8 and RSA PKCS#1)
+  - When both cert_path and key_path are provided, HTTP adapter automatically enables HTTPS with TLS 1.3, HTTP/1.1, and HTTP/2 ALPN
+  - Added `tcp_config.force_https` boolean field to force HTTP to HTTPS redirect (HTTP 301)
 - Added debug key to transform middleware spec
 
 ## [1.9.0] - 2025-12-07
