@@ -7,6 +7,7 @@
 //!
 //! - `harmony-config-schema.toml` - Main gateway configuration schema
 //! - `harmony-pipeline-schema.toml` - Pipeline configuration schema
+//! - `harmony-mesh-schema.toml` - Data mesh configuration schema
 //!
 //! ## Usage
 //!
@@ -35,6 +36,14 @@
 //! - Backend configurations (where requests go)
 //! - Middleware instances (transform, auth, etc.)
 //!
+//! ### harmony-mesh-schema.toml
+//!
+//! Defines the structure for data mesh configuration files (`mesh/*.toml`).
+//! Includes validation rules for:
+//! - Mesh definitions (grouping of ingress/egress points)
+//! - Ingress configurations (how mesh requests arrive)
+//! - Egress configurations (how mesh requests are sent)
+//!
 //! ## Cross-Language Support
 //!
 //! These schemas are designed to work with both:
@@ -55,6 +64,9 @@ pub const CONFIG_SCHEMA: &str = include_str!("../harmony-config-schema.toml");
 /// The contents of the harmony-pipeline-schema.toml file
 pub const PIPELINE_SCHEMA: &str = include_str!("../harmony-pipeline-schema.toml");
 
+/// The contents of the harmony-mesh-schema.toml file
+pub const MESH_SCHEMA: &str = include_str!("../harmony-mesh-schema.toml");
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -69,5 +81,11 @@ mod tests {
     fn pipeline_schema_is_not_empty() {
         assert!(!PIPELINE_SCHEMA.is_empty());
         assert!(PIPELINE_SCHEMA.contains("[schema]"));
+    }
+
+    #[test]
+    fn mesh_schema_is_not_empty() {
+        assert!(!MESH_SCHEMA.is_empty());
+        assert!(MESH_SCHEMA.contains("[schema]"));
     }
 }
