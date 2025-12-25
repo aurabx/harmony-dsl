@@ -37,6 +37,32 @@ enum = ["local", "runbeam"]
 description = "Mesh provider - 'local' for self-managed mesh with local certificates, 'runbeam' for Runbeam Cloud managed mesh"
 
 [[table.field]]
+name = "auth_type"
+type = "string"
+required = false
+enum = ["jwt"]
+default = "jwt"
+description = "Authentication type for mesh members. Currently only 'jwt' is supported."
+
+[[table.field]]
+name = "jwt_secret"
+type = "string"
+required = false
+description = "JWT secret for HS256 symmetric key authentication. Used for both signing (egress) and verification (ingress). Required for local provider if RSA keys are not configured."
+
+[[table.field]]
+name = "jwt_private_key_path"
+type = "string"
+required = false
+description = "Path to RSA private key (PEM format) for RS256 JWT signing on egress. Used with local provider for asymmetric authentication."
+
+[[table.field]]
+name = "jwt_public_key_path"
+type = "string"
+required = false
+description = "Path to RSA public key (PEM format) for RS256 JWT verification on ingress. Used with local provider for asymmetric authentication."
+
+[[table.field]]
 name = "ingress"
 type = "array"
 array_item_type = "string"
