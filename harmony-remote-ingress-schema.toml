@@ -1,0 +1,24 @@
+# Harmony Proxy Remote Ingress Catalogue Schema DSL
+# Defines remote ingress entries shared across gateways
+
+[schema]
+version = "1.10.0"
+description = "Remote mesh ingress schema containing external ingress names and URLs"
+
+# ========================================================================================
+# REMOTE INGRESS TABLE - Remote gateway ingress definitions
+# ========================================================================================
+[[table]]
+name = "remote_ingress.*"
+pattern = true
+pattern_constraint = "^[a-z0-9_-]+$"
+required = false
+description = "Remote ingress entry referenced by mesh definitions"
+
+[[table.field]]
+name = "urls"
+type = "array"
+required = true
+array_item_type = "string"
+min_items = 1
+description = "List of URLs served by the remote ingress"

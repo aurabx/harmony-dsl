@@ -18,6 +18,13 @@ endpoints = ["echo_endpoint"]
 middleware = ["echo_policies"]
 backends = ["echo_backend"]
 
+[pipelines.echo_basic.mesh.ingress.fhir]
+type = "http"
+urls = ["https://fhir.example.com/r4", "https://fhir-backup.example.com/r4"]
+
+[pipelines.echo_basic.mesh.egress.remote_core]
+type = "http"
+
 # ========================================================================================
 # MIDDLEWARE - POLICIES
 # ========================================================================================

@@ -3,7 +3,7 @@
 # It can be parsed and validated in both Rust (harmony-proxy) and PHP (runbeam cloud API)
 
 [schema]
-version = "1.11.0-dev"
+version = "1.10.0"
 description = "Harmony Proxy pipeline configuration schema for routing and middleware chains"
 
 # ========================================================================================
@@ -400,6 +400,102 @@ name = "options.region"
 type = "string"
 required = false
 description = "S3 region override when using an S3-backed storage root"
+
+# ========================================================================================
+# PIPELINE MESH INGRESS TABLE - Nested ingress definitions
+# ========================================================================================
+[[table]]
+name = "pipelines.*.mesh.ingress.*"
+pattern = true
+pattern_constraint = "^[a-z0-9._-]+$"
+required = false
+description = "Mesh ingress definition nested under a specific pipeline"
+
+[[table.field]]
+name = "type"
+type = "string"
+required = true
+enum = ["http", "http3"]
+description = "Protocol type for incoming mesh requests"
+
+[[table.field]]
+name = "mode"
+type = "string"
+required = false
+enum = ["default", "mesh"]
+default = "default"
+description = "Ingress mode: 'default' allows all requests, 'mesh' requires valid mesh authentication"
+
+[[table.field]]
+name = "endpoint"
+type = "string"
+required = false
+description = "Optional endpoint override. If omitted, the first endpoint listed for the pipeline is used."
+
+[[table.field]]
+name = "urls"
+type = "array"
+required = true
+array_item_type = "string"
+min_items = 1
+description = "List of URLs that map to this ingress"
+
+[[table.field]]
+name = "description"
+type = "string"
+required = false
+description = "Human-readable description of this ingress point"
+
+[[table.field]]
+name = "enabled"
+type = "boolean"
+required = false
+default = true
+description = "Whether this ingress is currently active"
+
+# ========================================================================================
+# PIPELINE MESH EGRESS TABLE - Nested egress definitions
+# ========================================================================================
+[[table]]
+name = "pipelines.*.mesh.egress.*"
+pattern = true
+pattern_constraint = "^[a-z0-9._-]+$"
+required = false
+description = "Mesh egress definition nested under a specific pipeline"
+
+[[table.field]]
+name = "type"
+type = "string"
+required = true
+enum = ["http", "http3"]
+description = "Protocol type for outgoing mesh requests"
+
+[[table.field]]
+name = "mode"
+type = "string"
+required = false
+enum = ["default", "mesh"]
+default = "default"
+description = "Egress mode: 'default' allows all destinations, 'mesh' requires destination to match a mesh ingress"
+
+[[table.field]]
+name = "backend"
+type = "string"
+required = false
+description = "Optional backend override. If omitted, the first backend listed for the pipeline is used."
+
+[[table.field]]
+name = "description"
+type = "string"
+required = false
+description = "Human-readable description of this egress point"
+
+[[table.field]]
+name = "enabled"
+type = "boolean"
+required = false
+default = true
+description = "Whether this egress is currently active"
 
 [[table.field]]
 name = "options.bucket"

@@ -3,7 +3,7 @@
 # It can be parsed and validated in both Rust (harmony-proxy) and PHP (runbeam cloud API)
 
 [schema]
-version = "1.11.0-dev"
+version = "1.10.0"
 description = "Harmony Proxy mesh configuration schema for data mesh networking"
 
 # ========================================================================================
@@ -91,94 +91,3 @@ required = false
 default = true
 description = "Whether this mesh is currently active"
 
-# ========================================================================================
-# INGRESS TABLE - Ingress definitions (multiple instances)
-# ========================================================================================
-[[table]]
-name = "ingress.*"
-pattern = true
-pattern_constraint = "^[a-z0-9_-]+$"
-required = false
-description = "Ingress definition - allows other mesh members to send requests to this proxy"
-
-[[table.field]]
-name = "id"
-type = "string"
-required = false
-description = "Optional unique identifier for this ingress"
-
-[[table.field]]
-name = "type"
-type = "string"
-required = true
-enum = ["http", "http3"]
-description = "Protocol type for incoming mesh requests"
-
-[[table.field]]
-name = "endpoint"
-type = "string"
-required = true
-description = "Reference to an endpoint name that incoming mesh requests will be routed to"
-
-[[table.field]]
-name = "urls"
-type = "array"
-array_item_type = "string"
-required = true
-min_items = 1
-description = "List of URLs that map to this ingress. Other mesh members use these URLs to reach this ingress point."
-
-[[table.field]]
-name = "description"
-type = "string"
-required = false
-description = "Human-readable description of this ingress point"
-
-[[table.field]]
-name = "enabled"
-type = "boolean"
-required = false
-default = true
-description = "Whether this ingress is currently active"
-
-# ========================================================================================
-# EGRESS TABLE - Egress definitions (multiple instances)
-# ========================================================================================
-[[table]]
-name = "egress.*"
-pattern = true
-pattern_constraint = "^[a-z0-9_-]+$"
-required = false
-description = "Egress definition - allows this proxy to send requests to other mesh members"
-
-[[table.field]]
-name = "id"
-type = "string"
-required = false
-description = "Optional unique identifier for this egress"
-
-[[table.field]]
-name = "type"
-type = "string"
-required = true
-enum = ["http", "http3"]
-description = "Protocol type for outgoing mesh requests"
-
-[[table.field]]
-name = "backend"
-type = "string"
-required = true
-description = "Reference to a backend name that outgoing mesh requests will be routed through"
-
-[[table.field]]
-name = "description"
-type = "string"
-required = false
-description = "Human-readable description of this egress point"
-
-[[table.field]]
-name = "enabled"
-type = "boolean"
-required = false
-default = true
-description = "Whether this egress is currently active"

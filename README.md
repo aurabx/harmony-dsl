@@ -61,6 +61,7 @@ This directory contains the TOML Schema DSL definitions for Harmony Proxy config
 | `dsl.md` | DSL specification and field reference |
 | `harmony-config-schema.toml` | Schema for main config files (`config.toml`) |
 | `harmony-pipeline-schema.toml` | Schema for pipeline files (`pipelines/*.toml`) |
+| `harmony-remote-ingress-schema.toml` | Schema for remote ingress catalogues shared between gateways |
 | `harmony-schema-guide.md` | Implementation guide and API design implications |
 
 ## What is the Schema DSL?

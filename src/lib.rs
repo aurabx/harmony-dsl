@@ -67,6 +67,10 @@ pub const PIPELINE_SCHEMA: &str = include_str!("../harmony-pipeline-schema.toml"
 /// The contents of the harmony-mesh-schema.toml file
 pub const MESH_SCHEMA: &str = include_str!("../harmony-mesh-schema.toml");
 
+/// The contents of the harmony-remote-ingress-schema.toml file
+pub const REMOTE_INGRESS_SCHEMA: &str =
+    include_str!("../harmony-remote-ingress-schema.toml");
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -87,5 +91,11 @@ mod tests {
     fn mesh_schema_is_not_empty() {
         assert!(!MESH_SCHEMA.is_empty());
         assert!(MESH_SCHEMA.contains("[schema]"));
+    }
+
+    #[test]
+    fn remote_ingress_schema_is_not_empty() {
+        assert!(!REMOTE_INGRESS_SCHEMA.is_empty());
+        assert!(REMOTE_INGRESS_SCHEMA.contains("[schema]"));
     }
 }
