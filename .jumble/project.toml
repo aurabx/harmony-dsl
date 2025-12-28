@@ -1,0 +1,37 @@
+[project]
+name = "harmony-dsl"
+description = "TOML Schema DSL definitions for Harmony Proxy configuration files"
+language = "rust"
+version = "1.10.0"
+repository = "https://github.com/aurabx/harmony-dsl"
+
+[commands]
+build = "cargo build --release"
+test = "cargo test"
+lint = "cargo clippy && cargo fmt --check"
+
+[entry_points]
+main = "src/lib.rs"
+config_schema = "harmony-config-schema.toml"
+pipeline_schema = "harmony-pipeline-schema.toml"
+ingress_schema = "harmony-remote-ingress-schema.toml"
+
+[dependencies]
+internal = []
+external = []
+
+[related_projects]
+upstream = []
+downstream = ["harmony-proxy", "runbeam-sdk", "harmony-toml-validator", "runbeam"]
+
+[concepts.schema_definitions]
+files = ["harmony-config-schema.toml", "harmony-pipeline-schema.toml", "harmony-remote-ingress-schema.toml"]
+summary = "TOML-based schema DSL defining validation rules, types, and constraints for Harmony config"
+
+[concepts.rust_embedding]
+files = ["src/lib.rs"]
+summary = "Schema files embedded as string constants via include_str! for Cargo crate distribution"
+
+[concepts.cross_language]
+files = ["composer.json", "src/lib.rs"]
+summary = "Dual distribution: Rust crate (crates.io) and PHP package (Packagist) with identical schemas"
