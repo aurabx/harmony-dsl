@@ -63,6 +63,12 @@ required = false
 description = "Path to RSA public key (PEM format) for RS256 JWT verification on ingress. Used with local provider for asymmetric authentication."
 
 [[table.field]]
+name = "jwks_url"
+type = "string"
+required = false
+description = "JWKS endpoint URL for Runbeam provider RS256 validation. If not specified, derived from runbeam.cloud_api_base_url + /.well-known/jwks.json"
+
+[[table.field]]
 name = "ingress"
 type = "array"
 array_item_type = "string"

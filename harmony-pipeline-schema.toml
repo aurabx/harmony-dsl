@@ -697,6 +697,58 @@ min = 1
 max = 300
 description = "Timeout in seconds for the webhook POST. Defaults to 5 seconds."
 
+# Mesh Auth Middleware Options (typically auto-injected, but can be manually configured)
+[[table.field]]
+name = "options.mesh_name"
+type = "string"
+required = false
+description = "Name of the mesh for mesh_auth middleware. If omitted and only one mesh is configured, it will be inferred."
+
+[[table.field]]
+name = "options.mesh_id"
+type = "string"
+required = false
+description = "Mesh ID for mesh_auth middleware. Required for Runbeam provider. If omitted, uses the mesh's id field."
+
+[[table.field]]
+name = "options.provider"
+type = "string"
+required = false
+enum = ["local", "runbeam"]
+description = "Mesh provider for mesh_auth middleware. If omitted, uses the mesh's provider."
+
+[[table.field]]
+name = "options.direction"
+type = "string"
+required = false
+enum = ["egress", "ingress"]
+default = "ingress"
+description = "Direction for mesh_auth middleware: 'egress' generates JWTs, 'ingress' validates JWTs."
+
+[[table.field]]
+name = "options.jwt_secret"
+type = "string"
+required = false
+description = "JWT secret for mesh_auth middleware (HS256). If omitted, uses the mesh's jwt_secret."
+
+[[table.field]]
+name = "options.jwt_key_path"
+type = "string"
+required = false
+description = "Path to JWT key file for mesh_auth middleware (RS256). For egress uses private key, for ingress uses public key."
+
+[[table.field]]
+name = "options.jwks_url"
+type = "string"
+required = false
+description = "JWKS URL for mesh_auth middleware (Runbeam provider ingress validation). If omitted, derived from runbeam.cloud_api_base_url."
+
+[[table.field]]
+name = "options.destination_url"
+type = "string"
+required = false
+description = "Destination URL for mesh_auth middleware (Runbeam provider egress). Typically extracted from target_details at runtime."
+
 # ========================================================================================
 # MIDDLEWARE_TYPES TABLE - Additional middleware type registrations (optional, for pipeline-specific types)
 [[table]]
