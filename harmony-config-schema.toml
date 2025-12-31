@@ -3,7 +3,7 @@
 # It can be parsed and validated in both Rust (harmony-proxy) and PHP (runbeam cloud API)
 
 [schema]
-version = "1.10.0"
+version = "1.11.0"
 description = "Harmony Proxy configuration schema for gateway configurations"
 
 # ========================================================================================
@@ -104,35 +104,67 @@ array_item_type = "string"
 required = false
 description = "List of field name patterns to treat as sensitive for masking in logs (e.g., '*_key', 'secret')"
 
-# ========================================================================================
-# RUNBEAM TABLE - Runbeam Cloud integration configuration
-# ========================================================================================
-[[table]]
-name = "runbeam"
-required = false
-description = "Runbeam Cloud integration configuration"
-
 [[table.field]]
-name = "enabled"
-type = "boolean"
-required = false
-default = false
-description = "Whether Runbeam Cloud integration is enabled"
-
-[[table.field]]
-name = "cloud_api_base_url"
+name = "primary_provider"
 type = "string"
 required = false
-description = "Base URL for Runbeam Cloud API (optional override, defaults to https://api.runbeam.cloud)"
+default = "runbeam"
+description = "Name of the primary provider for cloud polling settings. Defaults to 'runbeam'. Set to 'local' to disable cloud polling."
+
+# ========================================================================================
+# PROVIDER TABLE - Provider configurations for resource resolution
+# ========================================================================================
+[[table]]
+name = "provider.*"
+pattern = true
+pattern_constraint = "^[a-z0-9_-]+$"
+required = false
+description = "Provider configuration for resource resolution. 'local' is implicit and resolves from local config files. Remote providers (e.g., 'runbeam') require an 'api' field."
+
+[[table.field]]
+name = "api"
+type = "string"
+required = false
+description = "Base URL for provider API. Required for remote providers, omitted for 'local' provider."
 
 [[table.field]]
 name = "poll_interval_secs"
 type = "integer"
 required = false
 default = 30
-min = 5
+min = 0
 max = 3600
-description = "Interval in seconds for polling cloud API (default: 30s). Note: Polling starts automatically after gateway authorization via /admin/authorize"
+description = "Interval in seconds for polling provider API for changes. Set to 0 to disable polling."
+
+# ========================================================================================
+# RUNBEAM TABLE - [DEPRECATED] Use [provider.runbeam] and proxy.primary_provider instead
+# ========================================================================================
+[[table]]
+name = "runbeam"
+required = false
+description = "[DEPRECATED - use provider.runbeam and proxy.primary_provider] Legacy Runbeam Cloud integration configuration. This section is maintained for backward compatibility only."
+
+[[table.field]]
+name = "enabled"
+type = "boolean"
+required = false
+default = false
+description = "[DEPRECATED] Whether Runbeam Cloud integration is enabled. Use proxy.primary_provider instead."
+
+[[table.field]]
+name = "cloud_api_base_url"
+type = "string"
+required = false
+description = "[DEPRECATED - use provider.runbeam.api] Base URL for Runbeam Cloud API"
+
+[[table.field]]
+name = "poll_interval_secs"
+type = "integer"
+required = false
+default = 30
+min = 0
+max = 3600
+description = "[DEPRECATED - use provider.runbeam.poll_interval_secs] Interval in seconds for polling cloud API. 0 disables polling."
 
 # ========================================================================================
 # MANAGEMENT TABLE - Management API configuration
@@ -548,7 +580,7 @@ name = "protocol"
 type = "string"
 required = true
 enum = ["http", "https", "h3", "dicom", "harmony", "fhir", "hl7v2", "custom"]
-description = "Protocol type used by the target system.
+description = "Protocol type used by the target system."
 
 # Backward Compatibility: The field was previously named 'type' in schema versions prior to 1.9.0.
 # TOML files may still use 'type' which will be aliased to 'protocol' during deserialization.

@@ -3,7 +3,7 @@
 # It can be parsed and validated in both Rust (harmony-proxy) and PHP (runbeam cloud API)
 
 [schema]
-version = "1.10.0"
+version = "1.11.0"
 description = "Harmony Proxy mesh configuration schema for data mesh networking"
 
 # ========================================================================================
@@ -74,7 +74,7 @@ type = "array"
 array_item_type = "string"
 required = true
 min_items = 1
-description = "List of ingress definition names that belong to this mesh"
+description = "List of ingress references. Supports multiple formats: bare name (e.g., 'my_ingress') resolves locally, 'local.name.<name>' for explicit local, '<provider>.id.<id>' for provider ID lookup, '<provider>.<team>.<type>.name.<name>' for full path resolution."
 
 [[table.field]]
 name = "egress"
@@ -82,7 +82,7 @@ type = "array"
 array_item_type = "string"
 required = true
 min_items = 1
-description = "List of egress definition names that belong to this mesh"
+description = "List of egress references. Supports multiple formats: bare name (e.g., 'my_egress') resolves locally, 'local.name.<name>' for explicit local, '<provider>.id.<id>' for provider ID lookup, '<provider>.<team>.<type>.name.<name>' for full path resolution."
 
 [[table.field]]
 name = "description"

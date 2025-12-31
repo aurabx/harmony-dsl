@@ -52,7 +52,7 @@
 //!
 //! ## Version
 //!
-//! Schema version: Config 1.8.0 / Pipeline 1.8.0
+//! Schema version: Config 1.11.0 / Pipeline 1.10.0 / Mesh 1.11.0
 //!
 //! ## License
 //!
@@ -79,6 +79,12 @@ mod tests {
     fn config_schema_is_not_empty() {
         assert!(!CONFIG_SCHEMA.is_empty());
         assert!(CONFIG_SCHEMA.contains("[schema]"));
+    }
+
+    #[test]
+    fn config_schema_has_provider_table() {
+        assert!(CONFIG_SCHEMA.contains("provider.*"));
+        assert!(CONFIG_SCHEMA.contains("Provider configuration for resource resolution"));
     }
 
     #[test]
