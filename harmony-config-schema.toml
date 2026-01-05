@@ -17,8 +17,16 @@ description = "Core proxy configuration settings"
 [[table.field]]
 name = "id"
 type = "string"
-required = true
-description = "Unique identifier for this proxy instance"
+required = false
+required_if = "name not exists"
+description = "Unique identifier for this proxy instance (required if name not provided)"
+
+[[table.field]]
+name = "name"
+type = "string"
+required = false
+required_if = "id not exists"
+description = "Human-readable name for this proxy instance (required if id not provided)"
 
 [[table.field]]
 name = "pipelines_path"
