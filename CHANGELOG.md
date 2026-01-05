@@ -7,18 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.10.0] - 2026-01-05
+
 ### Added
 - **HTTP/3 (QUIC) Support** (AURA-2194):
   - New `[network.*.http3]` configuration section for HTTP/3 listeners with `bind_address`, `bind_port`, `cert_path`, and `key_path` fields
   - Added `h3` to protocol enum for peers, targets, endpoints, and backends
   - Added `ca_cert_path` field to connection configurations for custom CA certificate support with https/h3 protocols
   - HTTP/3 backend options: `options.ca_cert_path` and `options.timeout_secs`
-- **HTTPS Support for HTTP Adapter**:
+- **HTTPS Support for HTTP Adapter** (AURA-2240):
   - Added `tcp_config.cert_path` field for TLS certificate chain (PEM format)
   - Added `tcp_config.key_path` field for TLS private key (PEM format, supports PKCS#8 and RSA PKCS#1)
   - When both cert_path and key_path are provided, HTTP adapter automatically enables HTTPS with TLS 1.3, HTTP/1.1, and HTTP/2 ALPN
   - Added `tcp_config.force_https` boolean field to force HTTP to HTTPS redirect (HTTP 301)
-- Added debug key to transform middleware spec
+- **Transform Middleware Debugging** (AURA-2231):
+  - Added `options.debug` flag to transform middleware for enabling verbose diagnostics
+- **Webhook Middleware** (AURA-2231):
+  - New `webhook` middleware type with `options.endpoint`, redaction controls, and configurable timeout
+- **Mesh Support** (AURA-2241):
+  - New mesh DSL for defining mesh ingress/egress per pipeline
+  - Added `harmony-remote-ingress-schema.toml` for shared remote ingress catalogues
+  - Added mesh_auth middleware options for JWT-based mesh authentication
+- **Provider Resolution** (AURA-2245):
+  - Introduced `[provider.*]` table and `proxy.primary_provider` for pluggable provider configuration and resolution
 
 ## [1.9.0] - 2025-12-07
 
@@ -160,6 +171,8 @@ See `MIGRATION-v1.7.md` for complete migration instructions. Key changes:
 ## [1.6.0] - 2025-01-13
 - Added Types to Services
 
+[Unreleased]: https://github.com/aurabx/harmony-dsl/compare/1.10.0...HEAD
+[1.10.0]: https://github.com/aurabx/harmony-dsl/compare/1.9.0...1.10.0
 [1.9.0]: https://github.com/aurabx/harmony-dsl/compare/1.8.0...1.9.0
 [1.8.0]: https://github.com/aurabx/harmony-dsl/compare/1.7.0...1.8.0
 [1.7.0]: https://github.com/aurabx/harmony-dsl/compare/1.6.0...1.7.0

@@ -16,7 +16,7 @@ Add to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-harmony-dsl = "1.8"
+harmony-dsl = "1.10"
 ```
 
 ## Usage
