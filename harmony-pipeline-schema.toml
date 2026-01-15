@@ -223,6 +223,15 @@ type = "string"
 required = false
 description = "Optional storage directory override for received DICOM files when using filesystem-backed C-STORE"
 
+[[table.field]]
+name = "options.max_pdu"
+type = "integer"
+required = false
+default = 65536
+min = 16384
+max = 131072
+description = "Maximum PDU (Protocol Data Unit) size in bytes for DICOM SCP associations. Valid range: 16384-131072 bytes (16 KB - 128 KB). Default: 65536 (64 KB)."
+
 # ========================================================================================
 # BACKENDS TABLE - Backend configurations (multiple instances)
 # ========================================================================================
@@ -375,6 +384,15 @@ name = "options.local_aet"
 type = "string"
 required = false
 description = "Local Application Entity Title for DICOM SCU operations"
+
+[[table.field]]
+name = "options.max_pdu"
+type = "integer"
+required = false
+default = 65536
+min = 16384
+max = 131072
+description = "Maximum PDU (Protocol Data Unit) size in bytes for DICOM associations. Valid range: 16384-131072 bytes (16 KB - 128 KB). Default: 65536 (64 KB)."
 
 # Storage Backend Options
 [[table.field]]
@@ -667,26 +685,32 @@ required = false
 description = "Optional label used by the log_dump middleware to identify the dump location within the pipeline."
 
 # Webhook Middleware Options
+# The webhook middleware always performs HTTP POST requests to the configured endpoint.
+# HTTP method is not configurable. Outbound headers are derived from authentication
+# configuration and fixed headers (e.g., content-type: application/json), not from a
+# generic headers map. The redact_headers and redact_metadata options control which
+# data is redacted in the webhook payload sent to the endpoint, not which HTTP headers
+# are sent with the request.
 [[table.field]]
 name = "options.endpoint"
 type = "string"
 required = false
 required_if = "type == 'webhook'"
-description = "Webhook endpoint URL for the webhook middleware (http/https)."
+description = "Webhook endpoint URL for the webhook middleware (http/https). The middleware will always perform HTTP POST requests to this URL."
 
 [[table.field]]
 name = "options.redact_headers"
 type = "array"
 array_item_type = "string"
 required = false
-description = "List of HTTP header names to redact from the webhook payload (case-insensitive)."
+description = "List of HTTP header names to redact from the webhook payload (case-insensitive). Controls which headers are redacted in the JSON payload sent to the webhook endpoint, not which HTTP headers are sent with the webhook request."
 
 [[table.field]]
 name = "options.redact_metadata"
 type = "array"
 array_item_type = "string"
 required = false
-description = "List of metadata keys to redact from the webhook payload."
+description = "List of metadata keys to redact from the webhook payload. Controls which metadata fields are redacted in the JSON payload sent to the webhook endpoint."
 
 [[table.field]]
 name = "options.timeout_secs"
@@ -695,7 +719,7 @@ required = false
 default = 5
 min = 1
 max = 300
-description = "Timeout in seconds for the webhook POST. Defaults to 5 seconds."
+description = "Timeout in seconds for the webhook POST request. Defaults to 5 seconds."
 
 # Mesh Auth Middleware Options (typically auto-injected, but can be manually configured)
 [[table.field]]
